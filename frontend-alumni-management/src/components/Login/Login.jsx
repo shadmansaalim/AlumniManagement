@@ -30,7 +30,7 @@ const Login = () => {
 
                             <div className="text-center mt-4 pt-2">
                                 <button className="btn btn-success w-100" type="submit">Login <FontAwesomeIcon icon={faSignInAlt} /></button>
-                                <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup" type="button" className="link-danger">Sign Up</a></p>
+                                <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register" type="button" className="link-danger">Sign Up</a></p>
                             </div>
 
                             <div className="divider d-flex align-items-center my-4">
