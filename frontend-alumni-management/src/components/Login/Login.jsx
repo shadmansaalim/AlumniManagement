@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // CSS for Login Page
 import './Login.css';
@@ -7,22 +7,44 @@ import './Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
+//
+import useAuth from '../../hooks/useAuth';
+
 const Login = () => {
+    const [loginData, setLoginData] = useState({});
+    const { loginUser, signInWithGoogle } = useAuth();
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newLoginData = { ...loginData };
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
+    }
+
+    const handleLoginSubmit = e => {
+        e.preventDefault();
+        loginUser(loginData.email, loginData.password, history);
+    }
+
+
     return (
         <div className="bg">
             <div className="container">
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-11 col-md-8 col-lg-7 col-xl-4 shadow-lg p-3 p-md-5 rounded-3 mx-auto mx-xl-0 ms-xl-auto bg-white">
                         <h1 className="text-start login-title mb-5 fw-bold">Login</h1>
-                        <form>
+                        <form onSubmit={handleLoginSubmit}>
                             <div className="form-floating mb-3">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="email"
                                     type="email" className="form-control" id="loginEmail" placeholder="Email address" />
                                 <label htmlFor="loginEmail">Email address</label>
                             </div>
                             <div className="form-floating mb-4">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="password"
                                     type="password" className="form-control" id="loginPassword" placeholder="Password" />
                                 <label htmlFor="loginPassword">Password</label>
@@ -39,7 +61,7 @@ const Login = () => {
 
                             <div className="d-flex flex-row align-items-center justify-content-center">
                                 <p className="lead fw-normal mb-0 me-2">Sign in with</p>
-                                <button type="button" className="btn btn-dark rounded-3">
+                                <button onClick={signInWithGoogle} type="button" className="btn btn-dark rounded-3">
                                     Google <i className="fab fa-google"></i>
                                 </button>
                             </div>
