@@ -2,16 +2,18 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Components import
-import Login from './components/Login/Login';
-import SignUp from './components/SignUp/SignUp';
-
 // React Router DOM
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
+
+// Components import
+import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
+import ContextProvider from './context/ContextProvider';
+
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <ContextProvider>
+        <RouterProvider router={router} />
+      </ContextProvider>
     </div>
   )
 }
