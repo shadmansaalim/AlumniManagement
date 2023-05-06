@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../hooks/useAuth';
 
 const SignUp = () => {
+    const [signUpData, setSignUpData] = useState({});
+    const { registerUser } = useAuth();
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newSignUpData = { ...signUpData };
+        newSignUpData[field] = value;
+        setSignUpData(newSignUpData);
+    }
+
+    const handleSignUpSubmit = e => {
+        if (signUpData.password !== signUpData.password2) {
+            alert("Passwords doesn't match")
+        }
+        else {
+            registerUser(signUpData.name, signUpData.email, signUpData.password);
+            e.target.reset();
+        }
+
+        e.preventDefault();
+    }
 
     return (
         <div className="bg">
@@ -10,27 +33,31 @@ const SignUp = () => {
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-11 col-md-8 col-lg-7 col-xl-4 shadow-lg p-3 p-md-5 rounded-3 mx-auto mx-xl-0 ms-xl-auto bg-white">
                         <h1 className="text-start login-title mb-5 fw-bold">Sign Up</h1>
-                        <form >
+                        <form onSubmit={handleSignUpSubmit}>
                             <div className="form-floating mb-3">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="name"
                                     type="text" className="form-control" id="signUpName" placeholder="Your Name" />
                                 <label htmlFor="signUpName">Your Name</label>
                             </div>
                             <div className="form-floating mb-3">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="email"
                                     type="email" className="form-control" id="signUpEmail" placeholder="Email address" />
                                 <label htmlFor="signUpEmail">Email address</label>
                             </div>
                             <div className="form-floating mb-3">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="password"
                                     type="password" className="form-control" id="signUpPassword1" placeholder="Password" />
                                 <label htmlFor="signUpPassword1">Password</label>
                             </div>
                             <div className="form-floating mb-4">
                                 <input
+                                    onBlur={handleOnBlur}
                                     name="password2"
                                     type="password" className="form-control" id="signUpPassword2" placeholder="Confirm Password" />
                                 <label htmlFor="signUpPassword2">Confirm Password</label>
