@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [signUpData, setSignUpData] = useState({});
     const { registerUser } = useAuth();
+
+    const navigate = useNavigate();
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -20,7 +23,7 @@ const SignUp = () => {
             alert("Passwords doesn't match")
         }
         else {
-            registerUser(signUpData.name, signUpData.email, signUpData.password);
+            registerUser(signUpData.name, signUpData.email, signUpData.password, navigate);
             e.target.reset();
         }
 

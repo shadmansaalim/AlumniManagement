@@ -20,11 +20,12 @@ import DashboardJobProfile from './components/Dashboard/DashboardJobProfile/Dash
 import DashboardJobExperience from './components/Dashboard/DashboardJobExperience/DashboardJobExperience';
 import DashboardSkillSet from './components/Dashboard/DashboardSkillSet/DashboardSkillSet';
 import DashboardImportantLinks from './components/Dashboard/DashboardImportantLinks/DashboardImportantLinks';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <PrivateRoute><Dashboard /></PrivateRoute>,
   },
   {
     path: "/login",
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <PrivateRoute><Dashboard /></PrivateRoute>,
     // loader: ({ request }) =>
     //   fetch("/api/dashboard.json", {
     //     signal: request.signal,

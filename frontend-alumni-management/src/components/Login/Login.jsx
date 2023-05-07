@@ -9,10 +9,13 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 //
 import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
     const { loginUser, signInWithGoogle } = useAuth();
+
+    const navigate = useNavigate();
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -24,7 +27,7 @@ const Login = () => {
 
     const handleLoginSubmit = e => {
         e.preventDefault();
-        loginUser(loginData.email, loginData.password, history);
+        loginUser(loginData.email, loginData.password, navigate);
     }
 
 

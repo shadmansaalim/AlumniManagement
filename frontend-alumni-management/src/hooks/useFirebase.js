@@ -12,19 +12,21 @@ const useFirebase = () => {
     const auth = getAuth();
 
 
-    const registerUser = (name, email, password) => {
+    const registerUser = (name, email, password, navigate) => {
         setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const newUser = { email, displayName: name };
                 setUser(newUser);
                 alert("Account Created!");
-
             })
             .catch((error) => {
 
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                setIsLoading(false);
+                navigate('/');
+            });
     }
 
     useEffect(() => {
@@ -46,7 +48,7 @@ const useFirebase = () => {
         });
     }, [auth, user.email])
 
-    const signInWithGoogle = () => {
+    const signInWithGoogle = (navigate) => {
         setIsLoading(true);
         signInWithPopup(auth, googleProvider)
             .then((result) => {
@@ -55,11 +57,14 @@ const useFirebase = () => {
                 alert("Logged in successfully");
             }).catch((error) => {
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                setIsLoading(false);
+                navigate('/');
+            });
     }
 
 
-    const loginUser = (email, password) => {
+    const loginUser = (email, password, navigate) => {
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -68,7 +73,10 @@ const useFirebase = () => {
             .catch((error) => {
 
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                setIsLoading(false);
+                navigate('/');
+            });
     }
     const logOut = () => {
         setIsLoading(true);
