@@ -44,4 +44,25 @@ body {
   }
 }
 
+/* Custom Styles */
+.btn-success{
+  background-color: #006B5A !important;
+  border-color: #006B5A !important;
+}
+.btn-success:hover{
+  background-color: #014d40 !important;
+  border-color: #014d40 !important;
+}
 
+.btn-outline-success{
+  border-color: #006B5A !important;
+}
+.btn-outline-success:hover{
+  background-color: #006B5A !important;
+}
+.text-success{
+  color: #006B5A !important;
+}
+.bg-success{
+  background-color: #006B5A !important;
+}

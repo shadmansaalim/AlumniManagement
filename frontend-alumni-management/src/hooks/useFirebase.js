@@ -5,13 +5,15 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvi
 initializeAuthentication();
 
 const useFirebase = () => {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const googleProvider = new GoogleAuthProvider();
     const auth = getAuth();
 
 
     const registerUser = (name, email, password) => {
+        setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const newUser = { email, displayName: name };
@@ -22,26 +24,30 @@ const useFirebase = () => {
             .catch((error) => {
 
             })
-            .finally(() => { });
+            .finally(() => setIsLoading(false));
     }
 
     useEffect(() => {
+        setIsLoading(true);
         onAuthStateChanged(auth, (user) => {
             console.log(user);
             if (user) {
                 setUser(user);
                 getIdToken(user)
                     .then(token => {
-                        localStorage.setItem('token', token)
+                        localStorage.setItem('token', token);
+                        setIsLoading(false);
                     })
             } else {
-                setUser({})
+                setUser({});
+                setIsLoading(false);
             }
 
         });
     }, [auth, user.email])
 
     const signInWithGoogle = () => {
+        setIsLoading(true);
         signInWithPopup(auth, googleProvider)
             .then((result) => {
                 const user = result.user;
@@ -49,11 +55,12 @@ const useFirebase = () => {
                 alert("Logged in successfully");
             }).catch((error) => {
             })
-            .finally(() => { });
+            .finally(() => setIsLoading(false));
     }
 
 
     const loginUser = (email, password) => {
+        setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 alert("Logged in successfully");
@@ -61,19 +68,22 @@ const useFirebase = () => {
             .catch((error) => {
 
             })
-            .finally(() => { });
+            .finally(() => setIsLoading(false));
     }
     const logOut = () => {
+        setIsLoading(true);
         signOut(auth).then(() => {
             setUser({});
         }).catch((error) => {
             // An error happened.
         })
-            .finally(() => { });
+            .finally(() => setIsLoading(false));
     }
 
     return {
         user,
+        isLoading,
+        setIsLoading,
         registerUser,
         signInWithGoogle,
         loginUser,

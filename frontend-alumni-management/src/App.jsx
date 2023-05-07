@@ -13,12 +13,13 @@ import "./index.css";
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import ContextProvider from './context/ContextProvider';
+import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <Dashboard />,
   },
   {
     path: "/login",
