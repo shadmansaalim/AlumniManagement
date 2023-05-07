@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const SignUp = () => {
     const [signUpData, setSignUpData] = useState({});
@@ -20,7 +21,7 @@ const SignUp = () => {
 
     const handleSignUpSubmit = e => {
         if (signUpData.password !== signUpData.password2) {
-            alert("Passwords doesn't match")
+            swal("Passwords doesn't match!", "Please check password and then try again", "error");
         }
         else {
             registerUser(signUpData.name, signUpData.email, signUpData.password, navigate);
