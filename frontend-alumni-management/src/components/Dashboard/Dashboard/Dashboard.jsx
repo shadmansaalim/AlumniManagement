@@ -9,7 +9,7 @@ import {
 import { Button } from 'react-bootstrap';
 import useAuth from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignOutAlt, faImage, faPen, faTachometerAlt, faBox, faBlog, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignOutAlt, faFolder, faLightbulb, faCalendarDays, faLink, faFileLines, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import profile from '../../../assets/profile.png';
 
 const Dashboard = () => {
@@ -43,59 +43,71 @@ const Dashboard = () => {
                         </div>
                         <div className="list-group list-group-flush my-3 mx-auto">
                             <div>
-                                <Link to="/" className="text-decoration-none">
+                                <Link to="/dashboard" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faHome} />
+                                        </span>
                                         <span className="col-8 text-start">Home</span>
                                     </Button>
                                 </Link>
-                                <Link to="/dashboard" className="text-decoration-none"><Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-
-                                    <span className="col-8 text-start">Dashboard</span>
-                                </Button></Link>
-
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/events" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faCalendarDays} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Events
                                         </span>
                                     </Button>
                                 </Link>
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/transcripts" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faFolder} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Transcripts
                                         </span>
                                     </Button>
                                 </Link>
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/job-profile" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faSuitcase} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Job Profile
                                         </span>
                                     </Button>
                                 </Link>
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/job-experience" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faFileLines} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Job Experience
                                         </span>
                                     </Button>
                                 </Link>
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/skill-set" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faLightbulb} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Skill Set
                                         </span>
                                     </Button>
                                 </Link>
-                                <Link to="" className="text-decoration-none">
+                                <Link to="/dashboard/important-links" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faLink} />
+                                        </span>
                                         <span className="col-8 text-start">
-                                            TAB
+                                            Important Links
                                         </span>
                                     </Button>
                                 </Link>
@@ -124,7 +136,7 @@ const Dashboard = () => {
                             </div>
                         </nav>
                         <div className="container-fluid">
-                            {/* <Outlet /> */}
+                            <Outlet />
                         </div>
                     </div>
                 </div>
