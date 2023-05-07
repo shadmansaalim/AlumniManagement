@@ -64,7 +64,7 @@ const Login = () => {
 
                             <div className="d-flex flex-row align-items-center justify-content-center">
                                 <p className="lead fw-normal mb-0 me-2">Sign in with</p>
-                                <button onClick={signInWithGoogle} type="button" className="btn btn-dark rounded-3">
+                                <button onClick={() => signInWithGoogle(navigate)} type="button" className="btn btn-dark rounded-3">
                                     Google <i className="fab fa-google"></i>
                                 </button>
                             </div>
