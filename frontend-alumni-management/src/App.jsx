@@ -21,6 +21,7 @@ import DashboardJobExperience from './components/Dashboard/DashboardJobExperienc
 import DashboardSkillSet from './components/Dashboard/DashboardSkillSet/DashboardSkillSet';
 import DashboardImportantLinks from './components/Dashboard/DashboardImportantLinks/DashboardImportantLinks';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
+import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/VerifyAlumniCertificate';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
         element: <DashboardImportantLinks />,
       },
     ]
+  },
+  {
+    path: "/verify-alumni-certificate",
+    element: <VerifyAlumniCertificate />,
   },
 ]);
 
