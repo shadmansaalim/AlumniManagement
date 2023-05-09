@@ -42,28 +42,28 @@ const SignUp = () => {
                                 <input
                                     onBlur={handleOnBlur}
                                     name="name"
-                                    type="text" className="form-control" id="signUpName" placeholder="Your Name" />
+                                    type="text" className="form-control" id="signUpName" placeholder="Your Name" required />
                                 <label htmlFor="signUpName">Your Name</label>
                             </div>
                             <div className="form-floating mb-3">
                                 <input
                                     onBlur={handleOnBlur}
                                     name="email"
-                                    type="email" className="form-control" id="signUpEmail" placeholder="Email address" />
+                                    type="email" className="form-control" id="signUpEmail" placeholder="Email address" required />
                                 <label htmlFor="signUpEmail">Email address</label>
                             </div>
                             <div className="form-floating mb-3">
                                 <input
                                     onBlur={handleOnBlur}
                                     name="password"
-                                    type="password" className="form-control" id="signUpPassword1" placeholder="Password" />
+                                    type="password" className="form-control" id="signUpPassword1" placeholder="Password" required />
                                 <label htmlFor="signUpPassword1">Password</label>
                             </div>
                             <div className="form-floating mb-4">
                                 <input
                                     onBlur={handleOnBlur}
                                     name="password2"
-                                    type="password" className="form-control" id="signUpPassword2" placeholder="Confirm Password" />
+                                    type="password" className="form-control" id="signUpPassword2" placeholder="Confirm Password" required />
                                 <label htmlFor="signUpPassword2">Confirm Password</label>
                             </div>
 
