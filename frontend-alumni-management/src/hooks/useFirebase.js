@@ -24,6 +24,8 @@ const useFirebase = () => {
                 const newUser = { email, displayName: name };
                 setUser(newUser);
 
+                //Add user to db
+                saveUserToDb(email, name, 'POST');
 
                 // Send name to firebase
                 updateProfile(auth.currentUser, {
@@ -71,6 +73,10 @@ const useFirebase = () => {
             .then((result) => {
                 const user = result.user;
                 console.log(user);
+                //Add user to db
+                saveUserToDb(user.email, user.displayName, 'PUT');
+
+
                 toast.success(`Welcome back ${auth.currentUser.displayName.split(' ')[0]}`)
             }).catch((error) => {
                 if (error.message == 'Firebase: Error (auth/account-exists-with-different-credential).') {
@@ -112,6 +118,22 @@ const useFirebase = () => {
         })
             .finally(() => setIsLoading(false));
     }
+
+
+
+    //Function to add users to database MONGO DB Backend
+    const saveUserToDb = (email, displayName, method) => {
+        const user = { email, displayName };
+        fetch('http://localhost:3000/users', {
+            method: method,
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then()
+    }
+
 
     return {
         user,
