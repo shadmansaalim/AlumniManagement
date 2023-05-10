@@ -53,12 +53,17 @@ const useFirebase = () => {
         onAuthStateChanged(auth, (user) => {
             console.log(user);
             if (user) {
-                setUser(user);
-                getIdToken(user)
-                    .then(token => {
-                        localStorage.setItem('token', token);
-                        setIsLoading(false);
-                    })
+                fetch(`http://localhost:3000/users?email=${user.email}`)
+                    .then(res => res.json())
+                    .then((data) => setUser(data))
+                    .finally(() => {
+                        getIdToken(user)
+                            .then(token => {
+                                localStorage.setItem('token', token);
+                                setIsLoading(false);
+                            })
+                    });
+
             } else {
                 setUser({});
                 setIsLoading(false);

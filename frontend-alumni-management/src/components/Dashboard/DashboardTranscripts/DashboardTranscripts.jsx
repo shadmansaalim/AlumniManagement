@@ -100,6 +100,9 @@ const styles = StyleSheet.create({
         height: 'auto',
         marginBottom: '20px',
     },
+    ucn: {
+        fontWeight: 'bold'
+    }
 });
 
 const transcript = [
@@ -112,6 +115,9 @@ const transcript = [
 const DashboardTranscripts = () => {
     const { user } = useAuth();
     console.log(user);
+    // Unique Certificate Number for graduates
+    const UCN = user.UCN;
+
     return (
         <PDFViewer style={{ width: '100%', height: '100vh' }}>
             <Document>
@@ -122,7 +128,7 @@ const DashboardTranscripts = () => {
                         <Text style={styles.text}>
                             This is to certify that <Text style={{ fontWeight: 'bold' }}>{user.displayName}</Text> has completed all the requirements for the degree of Bachelor of Science in Computer Science and has achieved distinction this year 2023 at RMIT University, Melbourne, Australia.
                         </Text>
-
+                        <Text style={styles.ucn}>Unique Certificate Number : {UCN}</Text>
                         <Text style={styles.transcript}>Transcript</Text>
                         {transcript.map((course, index) => (
                             <View key={index} style={styles.transcriptCourses}>

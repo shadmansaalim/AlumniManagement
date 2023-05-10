@@ -29,15 +29,30 @@ async function run() {
 
         //GET USERS FROM DB
         app.get('/users', async (req, res) => {
-            const cursor = usersCollection.find({});
-            const users = await cursor.toArray();
+            const email = req.query.email;
 
-            res.json(users);
+            if (email) {
+                const user = await usersCollection.findOne({ email: email });
+                res.json(user);
+            }
+            else {
+                const cursor = usersCollection.find({});
+                const users = await cursor.toArray();
+
+                res.json(users);
+            }
         })
 
         //Add users to database those who signed up with Email Password
         app.post('/users', async (req, res) => {
+            const userCount = await usersCollection.countDocuments();
+
             const user = req.body;
+
+            // Unique Certificate Number for graduates
+            const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
+            user.UCN = parseInt(UCN);
+
             const result = await usersCollection.insertOne(user);
             res.json(result);
         })
