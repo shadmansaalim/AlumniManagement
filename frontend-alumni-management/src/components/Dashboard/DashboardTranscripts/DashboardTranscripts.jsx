@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         padding: '50px',
         fontSize: '18px',
         lineHeight: '1.5',
-        fontFamily: 'Ubuntu',
+        fontFamily: 'Courier',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'
@@ -42,22 +42,21 @@ const styles = StyleSheet.create({
         marginBottom: '24px',
         marginTop: '16px',
         textTransform: 'uppercase',
-        textDecoration: 'underline'
+        textDecoration: 'underline',
 
     },
     text: {
         textAlign: 'justify',
         marginBottom: '20px',
-        fontStyle: 'italic',
+        fontFamily: 'Courier-Oblique',
     },
     signature: {
-        marginTop: '20px',
+        marginTop: '28px',
         textAlign: 'start',
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },
     signatory: {
-        marginTop: '20px',
         fontWeight: 'bold',
     },
     signatoryTitle: {
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
     transcriptTitle: {
         fontWeight: 'bold',
         marginTop: '30px',
-        fontSize: '20px',
         marginBottom: '10px',
         textDecoration: 'underline',
     },
@@ -98,18 +96,17 @@ const styles = StyleSheet.create({
     logo: {
         width: '150px',
         height: 'auto',
-        marginBottom: '20px',
+
     },
-    ucn: {
-        fontWeight: 'bold'
-    }
 });
 
 const transcript = [
-    { name: 'Data Structure & Algorithms', mark: '3.24' },
-    { name: 'Web/Mobile Programming', mark: '3.50' },
-    { name: 'Cloud Computing', mark: '4.00' },
-    { name: 'Database Management', mark: '3.80' },
+    { name: 'Semester 01', mark: '3.24' },
+    { name: 'Semester 02', mark: '3.50' },
+    { name: 'Semester 03', mark: '4.00' },
+    { name: 'Semester 04', mark: '3.80' },
+    { name: 'Semester 05', mark: '3.30' },
+    { name: 'Semester 06', mark: '3.50' },
 ];
 
 const DashboardTranscripts = () => {
@@ -126,9 +123,11 @@ const DashboardTranscripts = () => {
                         <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/RMIT_University_Logo.svg/2560px-RMIT_University_Logo.svg.png" style={styles.logo} />
                         <Text style={styles.title}>Graduation Certificate</Text>
                         <Text style={styles.text}>
-                            This is to certify that <Text style={{ fontWeight: 'bold' }}>{user.displayName}</Text> has completed all the requirements for the degree of Bachelor of Science in Computer Science and has achieved distinction this year 2023 at RMIT University, Melbourne, Australia.
+                            This is to certify that <Text style={{ fontFamily: 'Courier-Bold' }}>{user.displayName}</Text> has completed all the requirements for the degree of Bachelor of Science in Computer Science and has achieved distinction this year 2023 at RMIT University, Melbourne, Australia.
                         </Text>
-                        <Text style={styles.ucn}>Unique Certificate Number : {UCN}</Text>
+                        <Text>
+                            <Text style={{ fontFamily: 'Courier-Bold' }}>Unique Certificate Number </Text> : {UCN}
+                        </Text>
                         <Text style={styles.transcript}>Transcript</Text>
                         {transcript.map((course, index) => (
                             <View key={index} style={styles.transcriptCourses}>
