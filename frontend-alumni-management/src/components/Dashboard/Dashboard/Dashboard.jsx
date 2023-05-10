@@ -132,7 +132,7 @@ const Dashboard = () => {
                                     style={{ color: '#006B5A' }}
                                 ></i>
                                 <h3 className="m-0"
-                                ><span className="text-uppercase">{user.displayName?.split(" ")[0]}</span>'s <span className="fw-bold">Dashboard</span></h3>
+                                ><span>Dashboard for RMIT Alumnis</span></h3>
                             </div>
                         </nav>
                         <div className="container-fluid">
