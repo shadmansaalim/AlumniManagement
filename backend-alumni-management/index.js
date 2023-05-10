@@ -69,6 +69,19 @@ async function run() {
             res.json(result);
         })
 
+        // Verify Alumni Certificate
+        app.get('/verify-alumni-certificate', async (req, res) => {
+            const UCN = parseInt(req.query.ucn);
+            const checkUser = await usersCollection.findOne({ UCN: UCN });
+            console.log(checkUser);
+            if (checkUser) {
+                res.json({ verified: true });
+            }
+            else {
+                res.json({ verified: false });
+            }
+        })
+
 
     }
     finally {
