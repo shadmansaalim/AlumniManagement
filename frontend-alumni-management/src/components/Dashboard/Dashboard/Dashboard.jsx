@@ -15,7 +15,7 @@ import profile from '../../../assets/profile.png';
 const Dashboard = () => {
     const [toggled, setToggled] = useState(true);
     const navigate = useNavigate();
-    const { currentUser, logOut } = useAuth();
+    const { currentUser, logout } = useAuth();
     const [offCanvasShow, setOffCanvasShow] = useState(false);
     const handleOffCanvasClose = () => setOffCanvasShow(false);
     const handleOffCanvasShow = () => setOffCanvasShow(true);
@@ -102,7 +102,7 @@ const Dashboard = () => {
                                 </Button>
                             </Link>
                             <button onClick={() => {
-                                logOut();
+                                logout();
                                 handleOffCanvasClose();
                                 navigate('/');
                             }} className="btn btn-outline-warning col-10 d-flex justify-content-between align-items-center mx-auto">
