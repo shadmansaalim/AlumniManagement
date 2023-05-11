@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ userRequired, children }) => {
     const { currentUser, isLoading } = useAuth();
     let location = useLocation();
 
@@ -17,12 +17,24 @@ const PrivateRoute = ({ children, ...rest }) => {
         )
     }
     else {
-        if (currentUser?.email) {
-            return children;
-        }
-        else {
-            return <Navigate to="/login" state={{ from: location }} />
+        // Hiding Dashboard
+        if (userRequired) {
+            if (currentUser?.email) {
+                return children;
+            }
+            else {
+                return <Navigate to="/login" state={{ from: location }} />
 
+            }
+        }
+        // Hiding Login & Signup page for authenticated people
+        else {
+            if (currentUser?.email) {
+                return <Navigate to="/" state={{ from: location }} />
+            }
+            else {
+                return children;
+            }
         }
     }
 };

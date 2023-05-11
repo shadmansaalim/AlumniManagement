@@ -26,19 +26,19 @@ import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/Verify
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute><Dashboard /></PrivateRoute>,
+    element: <PrivateRoute userRequired={true}><Dashboard /></PrivateRoute>,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <PrivateRoute userRequired={false}><Login /></PrivateRoute>,
   },
   {
     path: "/register",
-    element: <SignUp />,
+    element: <PrivateRoute userRequired={false}><SignUp /></PrivateRoute>,
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute><Dashboard /></PrivateRoute>,
+    element: <PrivateRoute userRequired={true}><Dashboard /></PrivateRoute>,
     // loader: ({ request }) =>
     //   fetch("/api/dashboard.json", {
     //     signal: request.signal,
