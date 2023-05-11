@@ -108,7 +108,6 @@ const useDb = () => {
         // Removing the current user from local storage
         removeUser();
         setCurrentUser(null);
-        navigate('/login');
     }
 
     return {
