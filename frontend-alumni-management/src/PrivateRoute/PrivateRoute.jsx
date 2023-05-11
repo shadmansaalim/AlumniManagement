@@ -3,11 +3,11 @@ import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const PrivateRoute = ({ children, ...rest }) => {
-    const { user, isLoading } = useAuth();
+    const { currentUser, isLoading } = useAuth();
     let location = useLocation();
 
-
     if (isLoading) {
+        // Loading spinner
         return (
             <div className="spinner d-flex align-items-center justify-content-center">
                 <div className="bounce1"></div>
@@ -17,11 +17,12 @@ const PrivateRoute = ({ children, ...rest }) => {
         )
     }
     else {
-        if (!user.email) {
-            return <Navigate to="/login" state={{ from: location }} />
+        if (currentUser?.email) {
+            return children;
         }
         else {
-            return children;
+            return <Navigate to="/login" state={{ from: location }} />
+
         }
     }
 };

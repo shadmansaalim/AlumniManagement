@@ -24,7 +24,7 @@ const SignUp = () => {
             swal("Passwords doesn't match!", "Please check password and then try again", "error");
         }
         else {
-            registerUser(signUpData.name, signUpData.email, signUpData.password, navigate);
+            registerUser(signUpData.firstName, signUpData.lastName, signUpData.email, signUpData.password, navigate);
             e.target.reset();
         }
 
@@ -41,9 +41,16 @@ const SignUp = () => {
                             <div className="form-floating mb-3">
                                 <input
                                     onBlur={handleOnBlur}
-                                    name="name"
-                                    type="text" className="form-control" id="signUpName" placeholder="Your Name" required />
-                                <label htmlFor="signUpName">Your Name</label>
+                                    name="firstName"
+                                    type="text" className="form-control" id="firstName" placeholder="First Name" required />
+                                <label htmlFor="firstName">First Name</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                                <input
+                                    onBlur={handleOnBlur}
+                                    name="lastName"
+                                    type="text" className="form-control" id="lastName" placeholder="Last Name" required />
+                                <label htmlFor="lastName">Last Name</label>
                             </div>
                             <div className="form-floating mb-3">
                                 <input

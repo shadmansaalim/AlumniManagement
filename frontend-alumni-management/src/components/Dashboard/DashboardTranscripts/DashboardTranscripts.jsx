@@ -110,10 +110,10 @@ const transcript = [
 ];
 
 const DashboardTranscripts = () => {
-    const { user } = useAuth();
-    console.log(user);
+    const { currentUser } = useAuth();
+    console.log(currentUser);
     // Unique Certificate Number for graduates
-    const UCN = user.UCN;
+    const UCN = currentUser.UCN;
 
     return (
         <PDFViewer style={{ width: '100%', height: '100vh' }}>
@@ -123,7 +123,7 @@ const DashboardTranscripts = () => {
                         <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/RMIT_University_Logo.svg/2560px-RMIT_University_Logo.svg.png" style={styles.logo} />
                         <Text style={styles.title}>Graduation Certificate</Text>
                         <Text style={styles.text}>
-                            This is to certify that <Text style={{ fontFamily: 'Courier-Bold' }}>{user.displayName}</Text> has completed all the requirements for the degree of Bachelor of Science in Computer Science and has achieved distinction this year 2023 at RMIT University, Melbourne, Australia.
+                            This is to certify that <Text style={{ fontFamily: 'Courier-Bold' }}>{currentUser.firstName} {currentUser.lastName}</Text> has completed all the requirements for the degree of Bachelor of Science in Computer Science and has achieved distinction this year 2023 at RMIT University, Melbourne, Australia.
                         </Text>
                         <Text>
                             <Text style={{ fontFamily: 'Courier-Bold' }}>Unique Certificate Number </Text> : {UCN}

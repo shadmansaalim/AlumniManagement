@@ -8,7 +8,6 @@ import swal from 'sweetalert';
 import useAuth from '../../hooks/useAuth';
 
 const VerifyAlumniCertificate = () => {
-    const { isLoading, setIsLoading } = useAuth();
     const [UCN, setUCN] = useState(null);
 
     const handleOnBlur = e => {
@@ -17,11 +16,9 @@ const VerifyAlumniCertificate = () => {
 
     const handleVerifyUCN = e => {
         e.preventDefault();
-        setIsLoading(true);
         fetch(`http://localhost:3000/verify-alumni-certificate?ucn=${UCN}`)
             .then(res => res.json())
             .then((data) => {
-                setIsLoading(false);
                 if (data.verified) {
                     swal("Valid UCN", "This is a verified Unique Certificate Number", "success");
                 }

@@ -54,19 +54,19 @@ async function run() {
             user.UCN = parseInt(UCN);
 
             const result = await usersCollection.insertOne(user);
-            res.json(result);
+            res.json(user);
         })
 
-        //Add users to database those who signed up with External Provider Google
-        app.put('/users', async (req, res) => {
-            const user = req.body;
-            const filter = { email: user.email };
-            const options = { upsert: true };
-            const updateDoc = {
-                $set: user
-            };
-            const result = await usersCollection.updateOne(filter, updateDoc, options);
-            res.json(result);
+        app.get('/users/login', async (req, res) => {
+            const email = req.query.email;
+            const password = req.query.password;
+            const user = await usersCollection.findOne({ email: email });
+
+            if (user === null || user.password !== password)
+                // Login failed.
+                res.json(null);
+            else
+                res.json(user);
         })
 
         // Verify Alumni Certificate
