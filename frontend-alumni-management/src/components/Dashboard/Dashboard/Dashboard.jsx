@@ -19,6 +19,7 @@ const Dashboard = () => {
     const [offCanvasShow, setOffCanvasShow] = useState(false);
     const handleOffCanvasClose = () => setOffCanvasShow(false);
     const handleOffCanvasShow = () => setOffCanvasShow(true);
+    const { role } = currentUser;
 
     return (
         <div>
@@ -51,7 +52,8 @@ const Dashboard = () => {
                                     </span>
                                 </Button>
                             </Link>
-                            <Link to="/dashboard/transcripts" className="text-decoration-none">
+                            {role === "user" && (
+                                <Link to="/dashboard/transcripts" className="text-decoration-none">
                                 <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
                                     <span className="col-3 text-end">
                                         <FontAwesomeIcon icon={faFolder} />
@@ -61,6 +63,7 @@ const Dashboard = () => {
                                     </span>
                                 </Button>
                             </Link>
+                            )}
                             <Link to="/dashboard/job-profile" className="text-decoration-none">
                                 <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
                                     <span className="col-3 text-end">
