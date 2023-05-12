@@ -4,6 +4,8 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId;
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 
 const app = express();
@@ -48,6 +50,10 @@ async function run() {
             const userCount = await usersCollection.countDocuments();
 
             const user = req.body;
+            if(user.password)
+                user.password = bcrypt.hashSync(user.password, saltRounds);
+            else
+                res.status(400).json({message:'Password is required!'});
 
             // Unique Certificate Number for graduates
             const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
@@ -62,11 +68,11 @@ async function run() {
             const password = req.query.password;
             const user = await usersCollection.findOne({ email: email });
 
-            if (user === null || user.password !== password)
-                // Login failed.
-                res.json(null);
-            else
+            if (user && bcrypt.compareSync(password, user.password))
                 res.json(user);
+            else
+                //Login Fail
+                res.json(null);
         })
 
         // Verify Alumni Certificate
