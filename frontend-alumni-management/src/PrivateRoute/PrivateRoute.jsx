@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = ({ userRequired, children }) => {
-    const { currentUser, isLoading } = useAuth();
+export const hasAccess = (userRole, allowedRoles) => {
+    return allowedRoles?.includes(userRole);
+}
+
+const PrivateRoute = ({ userRequired, children, roles }) => {
+    const { currentUser, isLoading, logout } = useAuth();
     let location = useLocation();
+
+    useEffect(() => {
+        async function checkAccess() {
+            if (currentUser && !hasAccess(currentUser?.role, roles)){
+                await logout();
+            }
+        }
+        checkAccess()
+    }, [])
 
     if (isLoading) {
         // Loading spinner
@@ -20,7 +33,11 @@ const PrivateRoute = ({ userRequired, children }) => {
         // Hiding Dashboard
         if (userRequired) {
             if (currentUser?.email) {
-                return children;
+                // Checking access for the routes
+                if (hasAccess(currentUser.role, roles)) {
+                    return children;
+                }
+                return <Navigate to="/login" state={{ from: location }} />
             }
             else {
                 return <Navigate to="/login" state={{ from: location }} />

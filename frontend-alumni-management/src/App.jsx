@@ -26,7 +26,7 @@ import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/Verify
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute userRequired={true}><Dashboard /></PrivateRoute>,
+    element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><Dashboard /></PrivateRoute>,
   },
   {
     path: "/login",
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute userRequired={true}><Dashboard /></PrivateRoute>,
+    element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><Dashboard /></PrivateRoute>,
     // loader: ({ request }) =>
     //   fetch("/api/dashboard.json", {
     //     signal: request.signal,
@@ -50,7 +50,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/transcripts",
-        element: <DashboardTranscripts />,
+        element:
+        <PrivateRoute userRequired={true} roles={['user']}>
+          <DashboardTranscripts />
+        </PrivateRoute>,
       },
       {
         path: "/dashboard/job-profile",
