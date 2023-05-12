@@ -43,9 +43,11 @@ const useDb = () => {
     };
 
     // Function to register user in backend
-    const registerUser = async (firstName, lastName, email, password, navigate) => {
+    const registerUser = async (firstName, lastName, email, password, navigate, isAdmin = false) => {
         // Checking whether user exists or not
         const exists = await userExists(email);
+        // Getting the role
+        const role = isAdmin ? "admin" : "user";
         if (exists) {
             swal("User Already Exists", "An user already exists with this username", "warning");
         }
@@ -55,7 +57,8 @@ const useDb = () => {
                 email,
                 password,
                 firstName,
-                lastName
+                lastName,
+                role
             }
             fetch('http://localhost:3000/users', {
                 method: 'POST',
@@ -104,7 +107,7 @@ const useDb = () => {
     }
 
     // Function to logout current user
-    const logout = () => {
+    const logout = async () => {
         // Removing the current user from local storage
         removeUser();
         setCurrentUser(null);

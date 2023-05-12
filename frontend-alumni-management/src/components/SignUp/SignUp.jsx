@@ -24,7 +24,7 @@ const SignUp = () => {
             swal("Passwords doesn't match!", "Please check password and then try again", "error");
         }
         else {
-            registerUser(signUpData.firstName, signUpData.lastName, signUpData.email, signUpData.password, navigate);
+            registerUser(signUpData.firstName, signUpData.lastName, signUpData.email, signUpData.password, navigate, false);
             e.target.reset();
         }
 
