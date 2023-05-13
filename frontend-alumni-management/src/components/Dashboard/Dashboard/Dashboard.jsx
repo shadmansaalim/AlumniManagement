@@ -9,7 +9,7 @@ import {
 import { Button } from 'react-bootstrap';
 import useAuth from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignOutAlt, faFolder, faLightbulb, faCalendarDays, faLink, faFileLines, faSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faBuildingColumns, faBook, faSuitcase, faSignOutAlt, faCalendarDays, faBell, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import profile from '../../../assets/profile.png';
 
 const Dashboard = () => {
@@ -42,6 +42,90 @@ const Dashboard = () => {
                                     <span className="col-8 text-start">Home</span>
                                 </Button>
                             </Link>
+                            {role === "admin" && (
+                                <Link to="/dashboard/accounts" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Accounts
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "admin" && (
+                                <Link to="/dashboard/colleges" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faBuildingColumns} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Colleges +
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "admin" && (
+                                <Link to="/dashboard/courses" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faBook} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Courses +
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "admin" && (
+                                <Link to="/dashboard/manage-job-post" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faSuitcase} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Manage Job Post
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "user" && (
+                                <Link to="/dashboard/profile" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Profile
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "user" && (
+                                <Link to="/dashboard/certificates" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faFileLines} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Academic Certificates
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
+                            {role === "user" && (
+                                <Link to="/dashboard/jobs" className="text-decoration-none">
+                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                    <span className="col-3 text-end">
+                                        <FontAwesomeIcon icon={faSuitcase} />
+                                    </span>
+                                    <span className="col-8 text-start">
+                                        Job Opportunities
+                                    </span>
+                                </Button>
+                            </Link>
+                            )}
                             <Link to="/dashboard/events" className="text-decoration-none">
                                 <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
                                     <span className="col-3 text-end">
@@ -52,55 +136,13 @@ const Dashboard = () => {
                                     </span>
                                 </Button>
                             </Link>
-                            {role === "user" && (
-                                <Link to="/dashboard/transcripts" className="text-decoration-none">
+                            <Link to="/dashboard/announcements" className="text-decoration-none">
                                 <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
                                     <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faFolder} />
+                                        <FontAwesomeIcon icon={faBell} />
                                     </span>
                                     <span className="col-8 text-start">
-                                        Transcripts
-                                    </span>
-                                </Button>
-                            </Link>
-                            )}
-                            <Link to="/dashboard/job-profile" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faSuitcase} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Job Profile
-                                    </span>
-                                </Button>
-                            </Link>
-                            <Link to="/dashboard/job-experience" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faFileLines} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Job Experience
-                                    </span>
-                                </Button>
-                            </Link>
-                            <Link to="/dashboard/skill-set" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faLightbulb} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Skill Set
-                                    </span>
-                                </Button>
-                            </Link>
-                            <Link to="/dashboard/important-links" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faLink} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Important Links
+                                        Announcements
                                     </span>
                                 </Button>
                             </Link>
