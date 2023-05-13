@@ -14,4 +14,3 @@ export interface IStudent {
     };
     grade: 'P' | 'C' | 'DI' | 'HD';
 }
-

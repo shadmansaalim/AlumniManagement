@@ -59,6 +59,6 @@ const studentSchema = new Schema<IStudent>({
 
 
 //Create a Model.
-const User = model<IStudent>('User', studentSchema);
+const Student = model<IStudent>('Student', studentSchema);
 
-export default User;
+export default Student;
