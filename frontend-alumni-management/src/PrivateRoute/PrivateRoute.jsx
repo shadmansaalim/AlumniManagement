@@ -12,7 +12,7 @@ const PrivateRoute = ({ userRequired, children, roles }) => {
 
     useEffect(() => {
         async function checkAccess() {
-            if (currentUser && !hasAccess(currentUser?.role, roles)){
+            if (currentUser && !hasAccess(currentUser?.role, roles)) {
                 await logout();
             }
         }
@@ -32,7 +32,7 @@ const PrivateRoute = ({ userRequired, children, roles }) => {
     else {
         // Hiding Dashboard
         if (userRequired) {
-            if (currentUser?.email) {
+            if (currentUser?.username) {
                 // Checking access for the routes
                 if (hasAccess(currentUser.role, roles)) {
                     return children;
@@ -46,7 +46,7 @@ const PrivateRoute = ({ userRequired, children, roles }) => {
         }
         // Hiding Login & Signup page for authenticated people
         else {
-            if (currentUser?.email) {
+            if (currentUser?.username) {
                 return <Navigate to="/" state={{ from: location }} />
             }
             else {

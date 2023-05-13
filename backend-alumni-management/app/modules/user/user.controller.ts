@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { createUserToDb, getUsersFromDb, getUserByEmailFromDb, generateUCNFromDb, getUserByUCNFromDb } from './user.service';
+import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, generateUCNFromDb, getUserByUCNFromDb } from './user.service';
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -7,12 +7,12 @@ const saltRounds = 10;
 
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
-    // Getting the email if it is in query
-    const email = req.query.email;
+    // Getting the username if it is in query
+    const username = req.query.username;
 
-    // If email in query then send that user otherwise send all users 
-    if (email) {
-        const user = await getUserByEmailFromDb(email);
+    // If username in query then send that user otherwise send all users 
+    if (username) {
+        const user = await getUserByUsernameFromDb(username);
         res.json(user);
     }
     else {
@@ -54,11 +54,11 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     // Extracting queries
-    const email = req.query.email;
+    const username = req.query.username;
     const password = req.query.password;
 
     // Getting the user from DB
-    const user = await getUserByEmailFromDb(email);
+    const user = await getUserByUsernameFromDb(username);
 
     if (user && bcrypt.compareSync(password, user.password))
         res.status(200).json({

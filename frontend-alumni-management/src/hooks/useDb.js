@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Joi from "joi";
 
 const userSchema = Joi.object({
-    email: Joi.string().email({ tlds: { allow: false } }).required(),
+    username: Joi.string().required(),
     password: Joi.string().required(),
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
@@ -25,9 +25,9 @@ const useDb = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchUser = async (email) => {
+    const fetchUser = async (username) => {
         try {
-            const user = await userExists(email);
+            const user = await userExists(username);
             setCurrentUser(user);
         } catch (error) {
             console.error(error);
@@ -38,17 +38,17 @@ const useDb = () => {
 
     // Keeping the user stored even after reload
     useEffect(() => {
-        const email = getUser();
-        if (email !== null) {
-            fetchUser(email);
+        const username = getUser();
+        if (username !== null) {
+            fetchUser(username);
         } else {
             setIsLoading(false);
         }
     }, []);
 
     // Function to check whether user exists in DB or NOT
-    const userExists = async (email) => {
-        const API = `http://localhost:3000/api/v1/users?email=${email}`;
+    const userExists = async (username) => {
+        const API = `http://localhost:3000/api/v1/users?username=${username}`;
         const res = await fetch(API);
         const user = await res.json();
         return user || null;
@@ -64,7 +64,7 @@ const useDb = () => {
 
 
     // Function to register user in backend
-    const registerUser = async (firstName, lastName, email, password, navigate, isAdmin = false) => {
+    const registerUser = async (firstName, lastName, username, password, navigate, isAdmin = false) => {
         console.log("Re");
         const API = `http://localhost:3000/api/v1/users/generate-ucn`;
         const res = await fetch(API);
@@ -76,11 +76,11 @@ const useDb = () => {
 
         try {
             // Validating user input
-            validateUser({ email, password, firstName, lastName, UCN, role });
+            validateUser({ username, password, firstName, lastName, UCN, role });
 
 
             // Checking whether user exists or not
-            const exists = await userExists(email);
+            const exists = await userExists(username);
 
             if (exists) {
                 swal("User Already Exists", "An user already exists with this username", "warning");
@@ -88,7 +88,7 @@ const useDb = () => {
             else {
                 // Creating the user
                 const user = {
-                    email,
+                    username,
                     password,
                     firstName,
                     lastName,
@@ -106,7 +106,7 @@ const useDb = () => {
                     .then((data) => {
                         if (data) {
                             setCurrentUser(data.data);
-                            saveUser(email);
+                            saveUser(username);
                             navigate("/dashboard");
                             swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
                         }
@@ -120,18 +120,18 @@ const useDb = () => {
     }
 
     // Function to login user
-    const loginUser = async (email, password, navigate) => {
+    const loginUser = async (username, password, navigate) => {
         // Checking whether user exists or not
-        const exists = await userExists(email);
+        const exists = await userExists(username);
 
-        // If exists then calling the LOGIN API and checking email and password matches or not
+        // If exists then calling the LOGIN API and checking username and password matches or not
         if (exists) {
-            fetch(`http://localhost:3000/api/v1/users/login?email=${email}&password=${password}`)
+            fetch(`http://localhost:3000/api/v1/users/login?username=${username}&password=${password}`)
                 .then(res => res.json())
                 .then((data) => {
                     if (data) {
                         setCurrentUser(data.data);
-                        saveUser(email);
+                        saveUser(username);
                         navigate("/dashboard");
                         toast.success(`Welcome back ${data.data.firstName}`)
                     }

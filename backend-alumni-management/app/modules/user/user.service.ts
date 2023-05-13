@@ -29,8 +29,8 @@ export const generateUCNFromDb = async (): Promise<string> => {
     return UCN;
 }
 
-export const getUserByEmailFromDb = async (payload: queryStringType): Promise<IUser | null> => {
-    const user = await User.findOne({ email: payload });
+export const getUserByUsernameFromDb = async (payload: queryStringType): Promise<IUser | null> => {
+    const user = await User.findOne({ username: payload });
     return user;
 }
 

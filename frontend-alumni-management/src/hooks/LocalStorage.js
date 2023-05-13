@@ -1,17 +1,17 @@
 // Function to save user to local storage
-const saveUser = (email) => {
-    localStorage.setItem('email', JSON.stringify(email));
+const saveUser = (username) => {
+    localStorage.setItem('username', JSON.stringify(username));
 }
 
 // Function to remove user from local storage
 const removeUser = () => {
-    localStorage.removeItem('email');
+    localStorage.removeItem('username');
 }
 
 // Function to get user from local storage
 const getUser = () => {
-    const email = JSON.parse(localStorage.getItem('email'));
-    return email;
+    const username = JSON.parse(localStorage.getItem('username'));
+    return username;
 };
 
 export { saveUser, getUser, removeUser };

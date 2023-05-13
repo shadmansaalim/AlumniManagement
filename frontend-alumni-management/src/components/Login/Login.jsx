@@ -27,7 +27,7 @@ const Login = () => {
 
     const handleLoginSubmit = e => {
         e.preventDefault();
-        loginUser(loginData.email, loginData.password, navigate);
+        loginUser(loginData.username, loginData.password, navigate);
     }
 
 
@@ -41,9 +41,9 @@ const Login = () => {
                             <div className="form-floating mb-3">
                                 <input
                                     onBlur={handleOnBlur}
-                                    name="email"
-                                    type="email" className="form-control" id="loginEmail" placeholder="Email address" required />
-                                <label htmlFor="loginEmail">Email address</label>
+                                    name="username"
+                                    type="text" className="form-control" id="username" placeholder="Student Username" required />
+                                <label htmlFor="username">Student Username</label>
                             </div>
                             <div className="form-floating mb-4">
                                 <input
