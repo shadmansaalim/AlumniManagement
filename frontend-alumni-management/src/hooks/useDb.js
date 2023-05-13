@@ -4,6 +4,16 @@ import swal from "sweetalert";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Validation library
+import Joi from "joi";
+
+const userSchema = Joi.object({
+    firstName: Joi.string().min(2).required(),
+    lastName: Joi.string().min(2).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+});
+
 toast.configure()
 
 const useDb = () => {
@@ -42,43 +52,62 @@ const useDb = () => {
         return user || null;
     };
 
+
+    const validateUser = (user) => {
+        const { error } = schema.validate(user);
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+    };
+
+
     // Function to register user in backend
     const registerUser = async (firstName, lastName, email, password, navigate, isAdmin = false) => {
-        // Checking whether user exists or not
-        const exists = await userExists(email);
-        // Getting the role
-        const role = isAdmin ? "admin" : "user";
-        if (exists) {
-            swal("User Already Exists", "An user already exists with this username", "warning");
-        }
-        else {
-            // Creating the user
-            const user = {
-                email,
-                password,
-                firstName,
-                lastName,
-                role
-            }
-            fetch('http://localhost:3000/users', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            })
-                .then(res => res.json())
-                .then((data) => {
-                    if (data) {
-                        setCurrentUser(data);
-                        saveUser(email);
-                        navigate("/dashboard");
-                        swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
-                    }
-                })
-        }
-    }
 
+        try {
+            // Validating user input
+            validateUser({ firstName, lastName, email, password });
+
+
+            // Checking whether user exists or not
+            const exists = await userExists(email);
+            // Getting the role
+            const role = isAdmin ? "admin" : "user";
+            if (exists) {
+                swal("User Already Exists", "An user already exists with this username", "warning");
+            }
+            else {
+                // Creating the user
+                const user = {
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    role
+                }
+                fetch('http://localhost:3000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then((data) => {
+                        if (data) {
+                            setCurrentUser(data);
+                            saveUser(email);
+                            navigate("/dashboard");
+                            swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
+                        }
+                    })
+            }
+
+        } catch (error) {
+            swal("Invalid Input", error.message, "warning");
+        }
+
+    }
 
     // Function to login user
     const loginUser = async (email, password, navigate) => {
