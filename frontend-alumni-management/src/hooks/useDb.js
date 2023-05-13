@@ -78,6 +78,23 @@ const useDb = () => {
         }
     };
 
+    const verifyStudent = (firstName, lastName, student, semesterToCheck, userInputGpa) => {
+        let result = {
+            verified: true
+        };
+        if (student.firstName !== firstName || student.lastName !== lastName) {
+            result.verified = false;
+        }
+        if (student.gpa[`sem${semesterToCheck}`] !== userInputGpa) {
+            result.verified = false;
+        }
+        if (student.graduationYear >= new Date().getFullYear()) {
+            result.verified = false;
+        }
+
+        return result;
+    }
+
 
     // Function to register user in backend
     const registerUser = async (firstName, lastName, username, semesterToCheck, userInputGpa, password, navigate, isAdmin = false) => {
@@ -91,9 +108,9 @@ const useDb = () => {
         else {
             const student = await studentExists(username);
             if (student) {
-
-                // Checking whether user provided his/her correct GPA
-                if (student.gpa[`sem${semesterToCheck}`] == userInputGpa) {
+                // Verifying Student
+                const studentVerificationResult = verifyStudent(firstName, lastName, student, semesterToCheck, userInputGpa);
+                if (studentVerificationResult.verified) {
                     // Getting the role
                     const role = isAdmin ? "admin" : "user";
 
@@ -132,7 +149,7 @@ const useDb = () => {
                     }
                 }
                 else {
-                    swal("Not Verified", `Your semester ${semesterToCheck} GPA doesn't match with your profile. If you pretend to be someone else, RMIT Team will take legal actions.`, "warning");
+                    swal("Not Verified", `We couldn't verify you. Please check whether you have provided your first and last name correctly just like your student profile also do check whether you provided semester ${semesterToCheck} GPA correctly. Also please note if you are a current RMIT Student this platform is not for you this is only for RMIT Alumnis. If you pretend to be someone else, RMIT Team will take legal actions.`, "warning");
                 }
             }
             else {

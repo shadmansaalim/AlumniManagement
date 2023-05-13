@@ -33,7 +33,7 @@ const SignUp = () => {
             swal("Passwords doesn't match!", "Please check password and then try again", "error");
         }
         else {
-            registerUser(signUpData.firstName, signUpData.lastName, signUpData.username, semesterToCheck, parseInt(signUpData.userInputGpa), signUpData.password, navigate, false);
+            registerUser(signUpData.firstName, signUpData.lastName, signUpData.username, semesterToCheck, parseFloat(signUpData.userInputGpa), signUpData.password, navigate, false);
             e.target.reset();
         }
 
@@ -73,8 +73,7 @@ const SignUp = () => {
                                     <input
                                         onBlur={handleOnBlur}
                                         name="userInputGpa"
-                                        type="number"
-                                        step="0.01"
+                                        type="string"
                                         className="form-control" id="userInputGpa" placeholder={`Your semester ${semesterToCheck} GPA`} required />
                                     <label htmlFor="userInputGpa">Your semester {semesterToCheck} GPA</label>
                                 </div>
