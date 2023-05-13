@@ -7,6 +7,8 @@ const ObjectId = require('mongodb').ObjectId;
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const Joi = require('joi');
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +29,15 @@ async function run() {
         const database = client.db("alumnidb");
         const usersCollection = database.collection("users");
 
+        // Schema for user object
+        const userSchema = Joi.object({
+            email: Joi.string().email().required(),
+            password: Joi.string().required(),
+            firstName: Joi.string().required(),
+            lastName: Joi.string().required(),
+            role: Joi.string().valid('admin', 'user').required(),
+        });
+
         // WRITE ALL API HERE
 
         //GET USERS FROM DB
@@ -45,15 +56,22 @@ async function run() {
             }
         })
 
-        //Add users to database those who signed up with Email Password
+        // API to register new user in database
         app.post('/users', async (req, res) => {
+            const user = req.body;
+
+            // Validate user object before inserting into database
+            const { error, value } = userSchema.validate(user);
+            if (error) {
+                return res.status(400).json({ error: error.details[0].message });
+            }
+
             const userCount = await usersCollection.countDocuments();
 
-            const user = req.body;
-            if(user.password)
+            if (user.password)
                 user.password = bcrypt.hashSync(user.password, saltRounds);
             else
-                res.status(400).json({message:'Password is required!'});
+                res.status(400).json({ message: 'Password is required!' });
 
             // Unique Certificate Number for graduates
             const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
