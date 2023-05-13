@@ -10,7 +10,7 @@ import Joi from "joi";
 const userSchema = Joi.object({
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
-    email: Joi.string().email().required(),
+    email: Joi.string().email({ tlds: { allow: false } }).required(),
     password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
 });
 
