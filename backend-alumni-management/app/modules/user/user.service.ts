@@ -20,22 +20,8 @@ export const getUsersFromDb = async (): Promise<Array<IUser>> => {
 }
 
 
-export const generateUCNFromDb = async (): Promise<string> => {
-    const userCount = await User.countDocuments();
-
-    // Unique Certificate Number for graduates
-    const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
-
-    return UCN;
-}
-
 export const getUserByUsernameFromDb = async (payload: queryStringType): Promise<IUser | null> => {
     const user = await User.findOne({ username: payload });
     return user;
 }
 
-
-export const getUserByUCNFromDb = async (payload: queryStringType): Promise<IUser | null> => {
-    const user = await User.findOne({ UCN: payload });
-    return user;
-}

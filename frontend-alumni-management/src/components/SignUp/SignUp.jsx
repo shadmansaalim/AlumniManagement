@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../hooks/useAuth';
@@ -8,6 +8,15 @@ import swal from 'sweetalert';
 const SignUp = () => {
     const [signUpData, setSignUpData] = useState({});
     const { registerUser } = useAuth();
+
+
+    const [semesterToCheck, setSemesterToCheck] = useState(0);
+
+    useEffect(() => {
+        // Randomly choosing a semester from 1 to 6
+        setSemesterToCheck(Math.floor(Math.random() * 6) + 1);
+    }, []);
+
 
     const navigate = useNavigate();
 
@@ -24,13 +33,12 @@ const SignUp = () => {
             swal("Passwords doesn't match!", "Please check password and then try again", "error");
         }
         else {
-            registerUser(signUpData.firstName, signUpData.lastName, signUpData.username, signUpData.password, navigate, false);
+            registerUser(signUpData.firstName, signUpData.lastName, signUpData.username, semesterToCheck, parseInt(signUpData.userInputGpa), signUpData.password, navigate, false);
             e.target.reset();
         }
 
         e.preventDefault();
     }
-
     return (
         <div className="bg">
             <div className="container">
@@ -58,6 +66,18 @@ const SignUp = () => {
                                     name="username"
                                     type="text" className="form-control" id="username" placeholder="Student Username" required />
                                 <label htmlFor="username">Student Username</label>
+                            </div>
+                            <div>
+                                <p className="text-start text-secondary mb-1">This helps us to verify you</p>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        name="userInputGpa"
+                                        type="number"
+                                        step="0.01"
+                                        className="form-control" id="userInputGpa" placeholder={`Your semester ${semesterToCheck} GPA`} required />
+                                    <label htmlFor="userInputGpa">Your semester {semesterToCheck} GPA</label>
+                                </div>
                             </div>
                             <div className="form-floating mb-3">
                                 <input
@@ -87,3 +107,13 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+
+
+
+
+
+
+
+
+

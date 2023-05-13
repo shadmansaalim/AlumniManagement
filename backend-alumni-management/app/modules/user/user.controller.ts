@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, generateUCNFromDb, getUserByUCNFromDb } from './user.service';
+import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb } from './user.service';
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -25,13 +25,6 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
-export const generateUCN = async (req: Request, res: Response, next: NextFunction) => {
-    const UCN = await generateUCNFromDb();
-    res.status(200).json({
-        status: 'success',
-        data: UCN
-    })
-}
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -71,20 +64,20 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 }
 
 export const verifyAlumniCertificate = async (req: Request, res: Response, next: NextFunction) => {
-    const UCN = req.query.ucn;
+    // const UCN = req.query.ucn;
 
-    const checkUser = await getUserByUCNFromDb(UCN);
-    if (checkUser) {
-        res.status(200).json({
-            status: 'success',
-            verified: true
-        })
-    }
-    else {
-        res.status(200).json({
-            status: 'success',
-            verified: false
-        })
-    }
+    // const checkUser = await getUserByUCNFromDb(UCN);
+    // if (checkUser) {
+    //     res.status(200).json({
+    //         status: 'success',
+    //         verified: true
+    //     })
+    // }
+    // else {
+    //     res.status(200).json({
+    //         status: 'success',
+    //         verified: false
+    //     })
+    // }
 
 }

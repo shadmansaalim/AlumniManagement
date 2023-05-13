@@ -13,7 +13,6 @@ const userSchema = Joi.object({
     password: Joi.string().required(),
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
-    UCN: Joi.number().min(5).required(),
     role: Joi.string().required()
 });
 
@@ -53,7 +52,7 @@ const useDb = () => {
         try {
             const res = await axios.get(API);
             return res.data;
-        } catch(err) {
+        } catch (err) {
             console.log(err);
             return null;
         }
@@ -67,64 +66,79 @@ const useDb = () => {
         }
     };
 
-
-    // Function to register user in backend
-    const registerUser = async (firstName, lastName, username, password, navigate, isAdmin = false) => {
-        const API = `http://localhost:3000/api/v1/users/generate-ucn`;
-        let UCN = null;
+    // Function to check whether student exists with given student username
+    const studentExists = async (username) => {
+        const API = `http://localhost:3000/api/v1/students?username=${username}`;
         try {
             const res = await axios.get(API);
-            UCN = res.data.data;
+            return res.data;
         } catch (err) {
             console.log(err);
+            return null;
         }
-
-        // Getting the role
-        const role = isAdmin ? "admin" : "user";
-
-        try {
-            // Validating user input
-            validateUser({ username, password, firstName, lastName, UCN, role });
+    };
 
 
-            // Checking whether user exists or not
-            const exists = await userExists(username);
+    // Function to register user in backend
+    const registerUser = async (firstName, lastName, username, semesterToCheck, userInputGpa, password, navigate, isAdmin = false) => {
 
-            if (exists) {
-                swal("User Already Exists", "An user already exists with this username", "warning");
+        // Checking whether user exists or not
+        const exists = await userExists(username);
+
+        if (exists) {
+            swal("User Already Exists", "An user already exists with this username", "warning");
+        }
+        else {
+            const student = await studentExists(username);
+            if (student) {
+
+                // Checking whether user provided his/her correct GPA
+                if (student.gpa[`sem${semesterToCheck}`] == userInputGpa) {
+                    // Getting the role
+                    const role = isAdmin ? "admin" : "user";
+
+                    try {
+                        // Validating user input
+                        validateUser({ username, password, firstName, lastName, role });
+
+                        // Creating the user
+                        const user = {
+                            username,
+                            password,
+                            firstName,
+                            lastName,
+                            role
+                        }
+                        axios.post('http://localhost:3000/api/v1/users/create-user', JSON.stringify(user), {
+                            headers: {
+                                'content-type': 'application/json'
+                            }
+                        })
+                            .then(res => {
+                                if (res.data) {
+                                    setCurrentUser(res.data.data);
+                                    saveUser(username);
+                                    navigate("/dashboard");
+                                    swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+
+
+                    } catch (error) {
+                        swal("Invalid Input", error.message, "warning");
+                    }
+                }
+                else {
+                    swal("Not Verified", `Your semester ${semesterToCheck} GPA doesn't match with your profile. If you pretend to be someone else, RMIT Team will take legal actions.`, "warning");
+                }
             }
             else {
-                // Creating the user
-                const user = {
-                    username,
-                    password,
-                    firstName,
-                    lastName,
-                    UCN,
-                    role
-                }
-                axios.post('http://localhost:3000/api/v1/users/create-user', JSON.stringify(user), {
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                })
-                .then(res => {
-                    if (res.data) {
-                        setCurrentUser(res.data.data);
-                        saveUser(username);
-                        navigate("/dashboard");
-                        swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+                swal("Invalid Student", "No student exists in RMIT with this username", "warning");
             }
-
-        } catch (error) {
-            swal("Invalid Input", error.message, "warning");
         }
-
     }
 
     // Function to login user

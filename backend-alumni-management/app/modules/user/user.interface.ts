@@ -4,7 +4,6 @@ export interface IUser {
     password: string;
     firstName: string;
     lastName: string;
-    UCN: string;
     role: "user" | "admin";
 }
 
