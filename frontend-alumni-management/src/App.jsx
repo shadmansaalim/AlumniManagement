@@ -14,12 +14,15 @@ import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import ContextProvider from './context/ContextProvider';
 import Dashboard from './components/Dashboard/Dashboard/Dashboard';
-import DashboardEvents from './components/Dashboard/DashboardEvents/DashboardEvents';
-import DashboardTranscripts from './components/Dashboard/DashboardTranscripts/DashboardTranscripts';
-import DashboardJobProfile from './components/Dashboard/DashboardJobProfile/DashboardJobProfile';
-import DashboardJobExperience from './components/Dashboard/DashboardJobExperience/DashboardJobExperience';
-import DashboardSkillSet from './components/Dashboard/DashboardSkillSet/DashboardSkillSet';
-import DashboardImportantLinks from './components/Dashboard/DashboardImportantLinks/DashboardImportantLinks';
+import DashboardEvents from './components/Dashboard/Common/DashboardEvents/DashboardEvents';
+import DashboardAnnouncements from './components/Dashboard/Common/DashboardAnnouncements/DashboardAnnouncements';
+import AdminAccounts from './components/Dashboard/Admin/AdminAccounts/AdminAccounts';
+import AdminColleges from './components/Dashboard/Admin/AdminColleges/AdminColleges';
+import AdminCourses from './components/Dashboard/Admin/AdminCourses/AdminCourses';
+import AdminJobPost from './components/Dashboard/Admin/AdminJobPost/AdminJobPost';
+import UserCertificates from './components/Dashboard/User/UserCertificates/UserCertificates';
+import UserJobs from './components/Dashboard/User/UserJobs/UserJobs';
+import UserProfile from './components/Dashboard/User/UserProfile/UserProfile';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/VerifyAlumniCertificate';
 
@@ -39,37 +42,42 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><Dashboard /></PrivateRoute>,
-    // loader: ({ request }) =>
-    //   fetch("/api/dashboard.json", {
-    //     signal: request.signal,
-    //   }),
     children: [
       {
+        path: "/dashboard/accounts",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminAccounts /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/colleges",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminColleges /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/courses",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminCourses /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/manage-job-post",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminJobPost /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/certificates",
+        element: <PrivateRoute userRequired={true} roles={['user']}><UserCertificates /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <PrivateRoute userRequired={true} roles={['user']}><UserProfile /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/jobs",
+        element: <PrivateRoute userRequired={true} roles={['user']}><UserJobs /></PrivateRoute>,
+      },
+      {
         path: "/dashboard/events",
-        element: <DashboardEvents />,
+        element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><DashboardEvents /></PrivateRoute>,
       },
       {
-        path: "/dashboard/transcripts",
-        element:
-        <PrivateRoute userRequired={true} roles={['user']}>
-          <DashboardTranscripts />
-        </PrivateRoute>,
-      },
-      {
-        path: "/dashboard/job-profile",
-        element: <DashboardJobProfile />,
-      },
-      {
-        path: "/dashboard/job-experience",
-        element: <DashboardJobExperience />,
-      },
-      {
-        path: "/dashboard/skill-set",
-        element: <DashboardSkillSet />,
-      },
-      {
-        path: "/dashboard/important-links",
-        element: <DashboardImportantLinks />,
+        path: "/dashboard/announcements",
+        element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><DashboardAnnouncements /></PrivateRoute>,
       },
     ]
   },
