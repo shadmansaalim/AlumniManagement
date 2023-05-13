@@ -14,4 +14,14 @@ const getUser = () => {
     return username;
 };
 
-export { saveUser, getUser, removeUser };
+// Function to save JWT token to local storage
+const saveToken = (token) => {
+    localStorage.setItem('token', token);
+}
+
+// Function to get JWT token from local storage
+const getToken = () => {
+    return localStorage.getItem('token');
+};
+
+export { saveUser, getUser, removeUser, saveToken, getToken };

@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { saveUser, getUser, removeUser, } from "./LocalStorage";
+import { useState, useEffect } from "react";
+import { saveUser, getUser, removeUser, saveToken } from "./LocalStorage";
 import swal from "sweetalert";
+import axios from '../axios/axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -49,9 +50,13 @@ const useDb = () => {
     // Function to check whether user exists in DB or NOT
     const userExists = async (username) => {
         const API = `http://localhost:3000/api/v1/users?username=${username}`;
-        const res = await fetch(API);
-        const user = await res.json();
-        return user || null;
+        try {
+            const res = await axios.get(API);
+            return res.data;
+        } catch(err) {
+            console.log(err);
+            return null;
+        }
     };
 
 
@@ -65,11 +70,14 @@ const useDb = () => {
 
     // Function to register user in backend
     const registerUser = async (firstName, lastName, username, password, navigate, isAdmin = false) => {
-        console.log("Re");
         const API = `http://localhost:3000/api/v1/users/generate-ucn`;
-        const res = await fetch(API);
-        const resJson = await res.json();
-        const UCN = resJson.data;
+        let UCN = null;
+        try {
+            const res = await axios.get(API);
+            UCN = res.data.data;
+        } catch (err) {
+            console.log(err);
+        }
 
         // Getting the role
         const role = isAdmin ? "admin" : "user";
@@ -95,22 +103,22 @@ const useDb = () => {
                     UCN,
                     role
                 }
-                fetch('http://localhost:3000/api/v1/users/create-user', {
-                    method: 'POST',
+                axios.post('http://localhost:3000/api/v1/users/create-user', JSON.stringify(user), {
                     headers: {
                         'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(user)
+                    }
                 })
-                    .then(res => res.json())
-                    .then((data) => {
-                        if (data) {
-                            setCurrentUser(data.data);
-                            saveUser(username);
-                            navigate("/dashboard");
-                            swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
-                        }
-                    })
+                .then(res => {
+                    if (res.data) {
+                        setCurrentUser(res.data.data);
+                        saveUser(username);
+                        navigate("/dashboard");
+                        swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
             }
 
         } catch (error) {
@@ -126,19 +134,21 @@ const useDb = () => {
 
         // If exists then calling the LOGIN API and checking username and password matches or not
         if (exists) {
-            fetch(`http://localhost:3000/api/v1/users/login?username=${username}&password=${password}`)
-                .then(res => res.json())
-                .then((data) => {
-                    if (data) {
-                        setCurrentUser(data.data);
-                        saveUser(username);
-                        navigate("/dashboard");
-                        toast.success(`Welcome back ${data.data.firstName}`)
-                    }
-                    else {
-                        swal("Invalid Username/Password", "Please try again", "warning");
-                    }
-                })
+            const API = `http://localhost:3000/api/v1/users/login?username=${username}&password=${password}`;
+            axios.get(API).then(res => {
+                if (res.data) {
+                    const { token, data } = res.data;
+                    setCurrentUser(data);
+                    saveToken(token);
+                    saveUser(username);
+                    navigate("/dashboard");
+                    toast.success(`Welcome back ${data.firstName}`);
+                } else {
+                    swal("Invalid Username/Password", "Please try again", "warning");
+                }
+            }).catch(err => {
+                console.log(err);
+            })
         }
         else {
             swal("Invalid User", "No user exists on this username", "warning");

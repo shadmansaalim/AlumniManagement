@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 import swal from 'sweetalert';
-import useAuth from '../../hooks/useAuth';
+import axios from '../../axios/axios';
 
 const VerifyAlumniCertificate = () => {
     const [UCN, setUCN] = useState(null);
@@ -16,16 +16,17 @@ const VerifyAlumniCertificate = () => {
 
     const handleVerifyUCN = e => {
         e.preventDefault();
-        fetch(`http://localhost:3000/api/v1/users/verify-alumni-certificate?ucn=${UCN}`)
-            .then(res => res.json())
-            .then((data) => {
-                if (data.verified) {
-                    swal("Valid UCN", "This is a verified Unique Certificate Number", "success");
-                }
-                else {
-                    swal("Invalid UCN", "This is not a verified Unique Certificate Number", "error");
-                }
-            })
+        const API = `http://localhost:3000/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
+        axios.get(API).then(res => {
+            if (res.data.verified) {
+                swal("Valid UCN", "This is a verified Unique Certificate Number", "success");
+            }
+            else {
+                swal("Invalid UCN", "This is not a verified Unique Certificate Number", "error");
+            }
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
 
