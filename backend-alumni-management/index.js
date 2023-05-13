@@ -1,129 +1,129 @@
-//Imports
-const express = require('express');
-const { MongoClient } = require('mongodb');
-const cors = require('cors');
-require('dotenv').config()
-const ObjectId = require('mongodb').ObjectId;
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+// //Imports
+// const express = require('express');
+// const { MongoClient } = require('mongodb');
+// const cors = require('cors');
+// require('dotenv').config()
+// const ObjectId = require('mongodb').ObjectId;
+// const bcrypt = require("bcrypt");
+// const saltRounds = 10;
 
-const Joi = require('joi');
-
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Middleware use for server
-app.use(cors());
-app.use(express.json());
+// const Joi = require('joi');
 
 
-//MongoDB
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tligr41.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// const app = express();
+// const port = process.env.PORT || 3000;
+
+// // Middleware use for server
+// app.use(cors());
+// app.use(express.json());
 
 
-async function run() {
-    try {
-        await client.connect();
-        const database = client.db("alumnidb");
-        const usersCollection = database.collection("users");
-
-        // Schema for user object
-        const userSchema = Joi.object({
-            email: Joi.string().email().required(),
-            password: Joi.string().required(),
-            firstName: Joi.string().required(),
-            lastName: Joi.string().required(),
-            role: Joi.string().valid('admin', 'user').required(),
-        });
-
-        // WRITE ALL API HERE
-
-        //GET USERS FROM DB
-        app.get('/users', async (req, res) => {
-            const email = req.query.email;
-
-            if (email) {
-                const user = await usersCollection.findOne({ email: email });
-                res.json(user);
-            }
-            else {
-                const cursor = usersCollection.find({});
-                const users = await cursor.toArray();
-
-                res.json(users);
-            }
-        })
-
-        // API to register new user in database
-        app.post('/users', async (req, res) => {
-            const user = req.body;
-
-            // Validate user object before inserting into database
-            const { error, value } = userSchema.validate(user);
-            if (error) {
-                return res.status(400).json({ error: error.details[0].message });
-            }
-
-            const userCount = await usersCollection.countDocuments();
-
-            if (user.password)
-                user.password = bcrypt.hashSync(user.password, saltRounds);
-            else
-                res.status(400).json({ message: 'Password is required!' });
-
-            // Unique Certificate Number for graduates
-            const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
-            user.UCN = parseInt(UCN);
-
-            const result = await usersCollection.insertOne(user);
-            res.json(user);
-        })
-
-        app.get('/users/login', async (req, res) => {
-            const email = req.query.email;
-            const password = req.query.password;
-            const user = await usersCollection.findOne({ email: email });
-
-            if (user && bcrypt.compareSync(password, user.password))
-                res.json(user);
-            else
-                //Login Fail
-                res.json(null);
-        })
-
-        // Verify Alumni Certificate
-        app.get('/verify-alumni-certificate', async (req, res) => {
-            const UCN = parseInt(req.query.ucn);
-            const checkUser = await usersCollection.findOne({ UCN: UCN });
-            console.log(checkUser);
-            if (checkUser) {
-                res.json({ verified: true });
-            }
-            else {
-                res.json({ verified: false });
-            }
-        })
+// //MongoDB
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tligr41.mongodb.net/?retryWrites=true&w=majority`;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-    }
-    finally {
-        //   await client.close();
-    }
-}
-run().catch(console.dir);
+// async function run() {
+//     try {
+//         await client.connect();
+//         const database = client.db("alumnidb");
+//         const usersCollection = database.collection("users");
+
+//         // Schema for user object
+//         const userSchema = Joi.object({
+//             email: Joi.string().email().required(),
+//             password: Joi.string().required(),
+//             firstName: Joi.string().required(),
+//             lastName: Joi.string().required(),
+//             role: Joi.string().valid('admin', 'user').required(),
+//         });
+
+//         // WRITE ALL API HERE
+
+//         //GET USERS FROM DB
+//         app.get('/users', async (req, res) => {
+//             const email = req.query.email;
+
+//             if (email) {
+//                 const user = await usersCollection.findOne({ email: email });
+//                 res.json(user);
+//             }
+//             else {
+//                 const cursor = usersCollection.find({});
+//                 const users = await cursor.toArray();
+
+//                 res.json(users);
+//             }
+//         })
+
+//         // API to register new user in database
+//         app.post('/users', async (req, res) => {
+//             const user = req.body;
+
+//             // Validate user object before inserting into database
+//             const { error, value } = userSchema.validate(user);
+//             if (error) {
+//                 return res.status(400).json({ error: error.details[0].message });
+//             }
+
+//             const userCount = await usersCollection.countDocuments();
+
+//             if (user.password)
+//                 user.password = bcrypt.hashSync(user.password, saltRounds);
+//             else
+//                 res.status(400).json({ message: 'Password is required!' });
+
+//             // Unique Certificate Number for graduates
+//             const UCN = (new Date().getFullYear()).toString() + (userCount + 1).toString();
+//             user.UCN = parseInt(UCN);
+
+//             const result = await usersCollection.insertOne(user);
+//             res.json(user);
+//         })
+
+//         app.get('/users/login', async (req, res) => {
+//             const email = req.query.email;
+//             const password = req.query.password;
+//             const user = await usersCollection.findOne({ email: email });
+
+//             if (user && bcrypt.compareSync(password, user.password))
+//                 res.json(user);
+//             else
+//                 //Login Fail
+//                 res.json(null);
+//         })
+
+//         // Verify Alumni Certificate
+//         app.get('/verify-alumni-certificate', async (req, res) => {
+//             const UCN = parseInt(req.query.ucn);
+//             const checkUser = await usersCollection.findOne({ UCN: UCN });
+//             console.log(checkUser);
+//             if (checkUser) {
+//                 res.json({ verified: true });
+//             }
+//             else {
+//                 res.json({ verified: false });
+//             }
+//         })
+
+
+//     }
+//     finally {
+//         //   await client.close();
+//     }
+// }
+// run().catch(console.dir);
 
 
 
-app.get('/', (req, res) => {
-    console.log('Hitting backend');
-    res.send(`Alumni Management Web App Backend`)
-})
+// app.get('/', (req, res) => {
+//     console.log('Hitting backend');
+//     res.send(`Alumni Management Web App Backend`)
+// })
 
-app.listen(port, () => {
-    console.log('Listening to port number ', port);
-})
+// app.listen(port, () => {
+//     console.log('Listening to port number ', port);
+// })
 
 
 

@@ -8,10 +8,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Joi from "joi";
 
 const userSchema = Joi.object({
+    email: Joi.string().email({ tlds: { allow: false } }).required(),
+    password: Joi.string().required(),
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
-    email: Joi.string().email({ tlds: { allow: false } }).required(),
-    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+    UCN: Joi.number().min(5).required(),
+    role: Joi.string().required()
 });
 
 toast.configure()
@@ -46,7 +48,7 @@ const useDb = () => {
 
     // Function to check whether user exists in DB or NOT
     const userExists = async (email) => {
-        const API = `http://localhost:3000/users?email=${email}`;
+        const API = `http://localhost:3000/api/v1/users?email=${email}`;
         const res = await fetch(API);
         const user = await res.json();
         return user || null;
@@ -54,7 +56,7 @@ const useDb = () => {
 
 
     const validateUser = (user) => {
-        const { error } = schema.validate(user);
+        const { error } = userSchema.validate(user);
         if (error) {
             throw new Error(error.details[0].message);
         }
@@ -63,16 +65,23 @@ const useDb = () => {
 
     // Function to register user in backend
     const registerUser = async (firstName, lastName, email, password, navigate, isAdmin = false) => {
+        console.log("Re");
+        const API = `http://localhost:3000/api/v1/users/generate-ucn`;
+        const res = await fetch(API);
+        const resJson = await res.json();
+        const UCN = resJson.data;
+
+        // Getting the role
+        const role = isAdmin ? "admin" : "user";
 
         try {
             // Validating user input
-            validateUser({ firstName, lastName, email, password });
+            validateUser({ email, password, firstName, lastName, UCN, role });
 
 
             // Checking whether user exists or not
             const exists = await userExists(email);
-            // Getting the role
-            const role = isAdmin ? "admin" : "user";
+
             if (exists) {
                 swal("User Already Exists", "An user already exists with this username", "warning");
             }
@@ -83,9 +92,10 @@ const useDb = () => {
                     password,
                     firstName,
                     lastName,
+                    UCN,
                     role
                 }
-                fetch('http://localhost:3000/users', {
+                fetch('http://localhost:3000/api/v1/users/create-user', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -95,7 +105,7 @@ const useDb = () => {
                     .then(res => res.json())
                     .then((data) => {
                         if (data) {
-                            setCurrentUser(data);
+                            setCurrentUser(data.data);
                             saveUser(email);
                             navigate("/dashboard");
                             swal("Account Created Successfully!", `Hey ${firstName}, You are now part of the RMIT Grad Network`, "success");
@@ -116,14 +126,14 @@ const useDb = () => {
 
         // If exists then calling the LOGIN API and checking email and password matches or not
         if (exists) {
-            fetch(`http://localhost:3000/users/login?email=${email}&password=${password}`)
+            fetch(`http://localhost:3000/api/v1/users/login?email=${email}&password=${password}`)
                 .then(res => res.json())
                 .then((data) => {
                     if (data) {
-                        setCurrentUser(data);
+                        setCurrentUser(data.data);
                         saveUser(email);
                         navigate("/dashboard");
-                        toast.success(`Welcome back ${data.firstName}`)
+                        toast.success(`Welcome back ${data.data.firstName}`)
                     }
                     else {
                         swal("Invalid Username/Password", "Please try again", "warning");

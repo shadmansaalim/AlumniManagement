@@ -16,7 +16,7 @@ const VerifyAlumniCertificate = () => {
 
     const handleVerifyUCN = e => {
         e.preventDefault();
-        fetch(`http://localhost:3000/verify-alumni-certificate?ucn=${UCN}`)
+        fetch(`http://localhost:3000/api/v1/users/verify-alumni-certificate?ucn=${UCN}`)
             .then(res => res.json())
             .then((data) => {
                 if (data.verified) {
