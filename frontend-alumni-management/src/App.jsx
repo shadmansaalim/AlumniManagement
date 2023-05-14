@@ -16,7 +16,7 @@ import ContextProvider from './context/ContextProvider';
 import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 import DashboardEvents from './components/Dashboard/Common/DashboardEvents/DashboardEvents';
 import DashboardAnnouncements from './components/Dashboard/Common/DashboardAnnouncements/DashboardAnnouncements';
-import AdminAccounts from './components/Dashboard/Admin/AdminAccounts/AdminAccounts';
+import AdminAccounts from './components/Dashboard/Admin/AdminStudents/AdminStudents';
 import AdminColleges from './components/Dashboard/Admin/AdminColleges/AdminColleges';
 import AdminCourses from './components/Dashboard/Admin/AdminCourses/AdminCourses';
 import AdminJobPost from './components/Dashboard/Admin/AdminJobPost/AdminJobPost';

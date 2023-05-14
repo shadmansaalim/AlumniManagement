@@ -43,88 +43,88 @@ const Dashboard = () => {
                                 </Button>
                             </Link>
                             {role === "admin" && (
-                                <Link to="/dashboard/accounts" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faUser} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Accounts
-                                    </span>
-                                </Button>
-                            </Link>
+                                <Link to="/dashboard/students" className="text-decoration-none">
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faUser} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Students
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "admin" && (
                                 <Link to="/dashboard/colleges" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faBuildingColumns} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Colleges +
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faBuildingColumns} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Colleges +
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "admin" && (
                                 <Link to="/dashboard/courses" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faBook} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Courses +
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faBook} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Courses +
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "admin" && (
                                 <Link to="/dashboard/manage-job-post" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faSuitcase} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Manage Job Post
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faSuitcase} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Manage Job Post
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "user" && (
                                 <Link to="/dashboard/profile" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faUser} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Profile
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faUser} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Profile
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "user" && (
                                 <Link to="/dashboard/certificates" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faFileLines} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Academic Certificates
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faFileLines} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Academic Certificates
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             {role === "user" && (
                                 <Link to="/dashboard/jobs" className="text-decoration-none">
-                                <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                    <span className="col-3 text-end">
-                                        <FontAwesomeIcon icon={faSuitcase} />
-                                    </span>
-                                    <span className="col-8 text-start">
-                                        Job Opportunities
-                                    </span>
-                                </Button>
-                            </Link>
+                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
+                                        <span className="col-3 text-end">
+                                            <FontAwesomeIcon icon={faSuitcase} />
+                                        </span>
+                                        <span className="col-8 text-start">
+                                            Job Opportunities
+                                        </span>
+                                    </Button>
+                                </Link>
                             )}
                             <Link to="/dashboard/events" className="text-decoration-none">
                                 <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
