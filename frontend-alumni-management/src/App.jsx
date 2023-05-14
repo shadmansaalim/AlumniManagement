@@ -16,7 +16,7 @@ import ContextProvider from './context/ContextProvider';
 import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 import DashboardEvents from './components/Dashboard/Common/DashboardEvents/DashboardEvents';
 import DashboardAnnouncements from './components/Dashboard/Common/DashboardAnnouncements/DashboardAnnouncements';
-import AdminAccounts from './components/Dashboard/Admin/AdminStudents/AdminStudents';
+import AdminStudents from './components/Dashboard/Admin/AdminStudents/AdminStudents';
 import AdminColleges from './components/Dashboard/Admin/AdminColleges/AdminColleges';
 import AdminCourses from './components/Dashboard/Admin/AdminCourses/AdminCourses';
 import AdminJobPost from './components/Dashboard/Admin/AdminJobPost/AdminJobPost';
@@ -25,6 +25,7 @@ import UserJobs from './components/Dashboard/User/UserJobs/UserJobs';
 import UserProfile from './components/Dashboard/User/UserProfile/UserProfile';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/VerifyAlumniCertificate';
+import AdminStudentProfile from './components/Dashboard/Admin/AdminStudents/AdminStudentProfile';
 
 const router = createBrowserRouter([
   {
@@ -44,8 +45,12 @@ const router = createBrowserRouter([
     element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><Dashboard /></PrivateRoute>,
     children: [
       {
-        path: "/dashboard/accounts",
-        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminAccounts /></PrivateRoute>,
+        path: "/dashboard/students",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudents /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/students/:username",
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudentProfile /></PrivateRoute>,
       },
       {
         path: "/dashboard/colleges",
