@@ -24,4 +24,3 @@ export const getUserByUsernameFromDb = async (payload: queryStringType): Promise
     const user = await User.findOne({ username: payload });
     return user;
 }
-

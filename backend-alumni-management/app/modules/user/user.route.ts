@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', getUsers);
 router.get('/login', loginUser);
 router.get('/verify-alumni-certificate', verifyAlumniCertificate);
-router.get('/generate-ucn');
+
 router.post('/create-user', createUser);
 
 
