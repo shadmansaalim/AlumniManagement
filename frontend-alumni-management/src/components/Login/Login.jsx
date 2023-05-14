@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // CSS for Login Page
 import './Login.css';
@@ -7,15 +7,34 @@ import './Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-//
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../axios/axios';
+
+const SITE_KEY = import.meta.env.VITE_SITE_KEY;
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
     const { loginUser } = useAuth();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const loadScriptByURL = (id, url) => {
+          const isScriptExist = document.getElementById(id);
+       
+          if (!isScriptExist) {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = url;
+            script.id = id;
+            document.body.appendChild(script);
+          }
+        }
+       
+        // load the reacaptcha script by passing the URL
+        loadScriptByURL("recaptcha-key", `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`);
+    }, []);
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -27,7 +46,28 @@ const Login = () => {
 
     const handleLoginSubmit = e => {
         e.preventDefault();
-        loginUser(loginData.username, loginData.password, navigate);
+
+        window.grecaptcha.ready(() => {
+            window.grecaptcha.execute(SITE_KEY, { action: 'submit' }).then(token => {
+                axios.post('http://localhost:3000/api/v1/users/verify-recaptcha', {
+                    username: loginData.username,
+                    password: loginData.password,
+                    "g-recaptcha-response": token
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(({ data: { verified } }) => {
+                    if (verified) {
+                        loginUser(loginData.username, loginData.password, navigate);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
     }
 
 

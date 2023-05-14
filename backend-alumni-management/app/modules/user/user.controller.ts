@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb } from './user.service';
+import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, verifyRecaptchaFromGoogle } from './user.service';
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -61,6 +61,19 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     else
         //Login Fail
         res.json(null);
+}
+
+export const verifyRecaptcha = async (req: Request, res: Response, next: NextFunction) => {
+    const data = req.body;
+    console.log(data);
+
+    const verifyUser = await verifyRecaptchaFromGoogle(data);
+    if(verifyUser) {
+        res.status(200).json({
+            status: 'success',
+            verified: true
+        })
+    }
 }
 
 export const verifyAlumniCertificate = async (req: Request, res: Response, next: NextFunction) => {
