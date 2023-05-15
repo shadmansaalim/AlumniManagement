@@ -79,16 +79,7 @@ const AdminStudentProfile = () => {
 
     const handleSubmitIssueCertificate = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3000/api/v1/certificates/create-certificate', {
-                privateKey,
-                student
-            });
-            console.log(response.data);
-            handleClose();
-        } catch (error) {
-            console.error(error);
-        }
+
     };
 
 
