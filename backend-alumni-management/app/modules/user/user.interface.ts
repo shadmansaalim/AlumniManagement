@@ -1,9 +1,22 @@
-//1. Creating an interface
-export interface IUser {
+import { IStudent } from "../student/student.interface";
+//Creating an interface
+export interface IUser extends IStudent {
     username: string;
-    password: string;
     firstName: string;
     lastName: string;
+    degree: string;
+    graduationYear: number;
+    gpa: {
+        sem1: number;
+        sem2: number;
+        sem3: number;
+        sem4: number;
+        sem5: number;
+        sem6: number;
+    };
+    grade: 'P' | 'C' | 'DI' | 'HD';
+    password: string;
     role: "user" | "admin";
+    UCN: string;
 }
 

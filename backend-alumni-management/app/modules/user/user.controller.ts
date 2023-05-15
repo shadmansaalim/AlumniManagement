@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb } from './user.service';
+import { getStudentByUsernameFromDb } from '../student/student.service';
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -25,11 +26,18 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
-
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const data = req.body;
-    console.log(data);
+    const student = await getStudentByUsernameFromDb(data.username);
+
+
+    data.gpa = student.gpa;
+    data.degree = student.degree;
+    data.graduationYear = student.graduationYear;
+    data.grade = student.grade
+    data.UCN = "G" + data.graduationYear + data.username.substring(1);
+
 
     // Checking password
     if (data.password)

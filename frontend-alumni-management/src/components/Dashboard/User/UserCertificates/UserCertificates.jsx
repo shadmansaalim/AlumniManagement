@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Document, Page, StyleSheet, Font, Text, View, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 
 import useAuth from '../../../../hooks/useAuth';
-import axios from '../../../../axios/axios';
 
 // Register EB Garamond font
 Font.register({
@@ -110,47 +109,72 @@ const transcript = [
     { name: 'Semester 06', mark: '3.50' },
 ];
 
-const base64toBlob = (data) => {
-    // Cut the prefix `data:application/pdf;base64` from the raw base 64
-    const base64WithoutPrefix = data.substr('data:application/pdf;base64,'.length);
-
-    const bytes = atob(base64WithoutPrefix);
-    let length = bytes.length;
-    let out = new Uint8Array(length);
-
-    while (length--) {
-        out[length] = bytes.charCodeAt(length);
-    }
-
-    return new Blob([out], { type: 'application/pdf' });
-};
-
-
 const UserCertificates = () => {
     const { currentUser } = useAuth();
+    const { firstName, lastName, degree, graduationYear, gpa, UCN, grade } = currentUser;
 
-    // Unique Certificate Number for graduates
-    const UCN = currentUser.UCN;
-
-    const [certificate, setCertificate] = useState(null);
-    useEffect(() => {
-        const API = `http://localhost:3000/api/v1/certificates?username=${currentUser.username}`;
-        axios.get(API).then(res => {
-            if (res.data) {
-                // const blob = base64toBlob(res.data.pdf);
-                // const url = URL.createObjectURL(blob);
-                // console.log(url);
-                setCertificate(res.data);
-            }
-        }).catch(err => {
-            console.log(err);
-        })
-    }, [])
+    const getFullGrade = (g) => {
+        switch (g) {
+            case 'P':
+                return 'Pass';
+            case 'C':
+                return 'Credit';
+            case 'DI':
+                return 'Distinction'
+            case 'HD':
+                return 'Higher Distinction'
+            default:
+                return ''
+        }
+    }
 
     return (
-        <div>
-            <embed src={`data:application/pdf;base64,${certificate?.pdf}`} />
-        </div>
+        <PDFViewer style={{ width: '100%', height: '100vh' }}>
+            <Document>
+                <Page size="A4" style={styles.page}>
+                    <View>
+                        <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/RMIT_University_Logo.svg/2560px-RMIT_University_Logo.svg.png" style={styles.logo} />
+                        <Text style={styles.title}>Graduation Certificate</Text>
+                        <Text style={styles.text}>
+                            This is to certify that <Text style={{ fontFamily: 'Courier-Bold' }}>{firstName} {lastName}</Text> has completed all the requirements for the degree of {degree} and has achieved a <Text style={{ fontFamily: 'Courier-Bold' }}>{getFullGrade(grade)}</Text> in {graduationYear} at RMIT University, Melbourne, Australia.
+                        </Text>
+                        <Text>
+                            <Text style={{ fontFamily: 'Courier-Bold' }}>Unique Certificate Number </Text> : {UCN}
+                        </Text>
+                        <Text style={styles.transcript}>Transcript</Text>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 1</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem1}</Text>
+                        </View>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 2</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem2}</Text>
+                        </View>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 3</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem3}</Text>
+                        </View>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 4</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem4}</Text>
+                        </View>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 5</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem5}</Text>
+                        </View>
+                        <View style={styles.transcriptCourses}>
+                            <Text style={styles.transcriptCourseName}>Semester 6</Text>
+                            <Text style={styles.transcriptCourseMark}>{gpa.sem6}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text style={styles.signature}>Jane</Text>
+                        <Text style={styles.signatory}>Dr. Jane Smith</Text>
+                        <Text style={styles.signatoryTitle}>Head of Department</Text>
+                    </View>
+                </Page>
+            </Document>
+        </PDFViewer>
     );
 };
 
