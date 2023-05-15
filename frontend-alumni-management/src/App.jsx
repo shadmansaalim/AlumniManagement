@@ -16,9 +16,7 @@ import ContextProvider from './context/ContextProvider';
 import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 import DashboardEvents from './components/Dashboard/Common/DashboardEvents/DashboardEvents';
 import DashboardAnnouncements from './components/Dashboard/Common/DashboardAnnouncements/DashboardAnnouncements';
-import AdminStudents from './components/Dashboard/Admin/AdminStudents/AdminStudents';
-import AdminColleges from './components/Dashboard/Admin/AdminColleges/AdminColleges';
-import AdminCourses from './components/Dashboard/Admin/AdminCourses/AdminCourses';
+import AdminStudentsWrapper from './components/Dashboard/Admin/AdminStudents/AdminStudentsWrapper';
 import AdminJobPost from './components/Dashboard/Admin/AdminJobPost/AdminJobPost';
 import UserCertificates from './components/Dashboard/User/UserCertificates/UserCertificates';
 import UserJobs from './components/Dashboard/User/UserJobs/UserJobs';
@@ -51,19 +49,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/students",
-        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudents /></PrivateRoute>,
+        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudentsWrapper /></PrivateRoute>,
       },
       {
         path: "/dashboard/students/:username",
         element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudentProfile /></PrivateRoute>,
-      },
-      {
-        path: "/dashboard/colleges",
-        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminColleges /></PrivateRoute>,
-      },
-      {
-        path: "/dashboard/courses",
-        element: <PrivateRoute userRequired={true} roles={['admin']}><AdminCourses /></PrivateRoute>,
       },
       {
         path: "/dashboard/manage-job-post",

@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Card, Tab, Nav } from 'react-bootstrap';
 import profile from '../../../../assets/profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import axios from '../../../../axios/axios';
-import { useNavigate } from 'react-router-dom';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router';
 
 
-const AdminStudents = () => {
-    const [students, setStudents] = useState([]);
 
+const AdminStudents = ({ students }) => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const API = `http://localhost:3000/api/v1/students/`;
-        axios.get(API).then(res => {
-            if (res.data) {
-                console.log(res.data.data);
-                setStudents(res.data.data);
-            }
-        }).catch(err => {
-            console.log(err);
-        })
-    }, [])
 
     return (
         <div>
+
             <Container className="mt-4">
-                <section className="my-5">
+                <section className="my-4">
                     <Row xs={1} lg={2} className="g-4">
                         {
                             students.map((student) => <Col key={student.username}>
@@ -43,10 +30,11 @@ const AdminStudents = () => {
                                             </Card.Title>
 
                                             {
-                                                student.grade === 'HD'
+                                                // If the student has grade property then he has graduated
+                                                student?.grade
                                                 &&
-                                                <button data-toggle="tooltip" data-placement="top" title="Student graduated with HD" type="button" className="btn btn-success btn-circle btn-lg ms-auto">
-                                                    <FontAwesomeIcon icon={faLightbulb} />
+                                                <button data-toggle="tooltip" data-placement="top" title="Alumni" type="button" className="btn btn-success btn-circle btn-lg ms-auto">
+                                                    <FontAwesomeIcon icon={faGraduationCap} />
                                                 </button>
                                             }
 
