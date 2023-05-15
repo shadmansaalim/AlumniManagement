@@ -4,10 +4,13 @@ import profile from '../../../../assets/profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import axios from '../../../../axios/axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminStudents = () => {
     const [students, setStudents] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const API = `http://localhost:3000/api/v1/students/`;
@@ -50,7 +53,9 @@ const AdminStudents = () => {
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
-                                        <button className="btn btn-secondary w-100">Open Profile</button>
+                                        <button
+                                            onClick={() => navigate(`/dashboard/students/${student.username}`)}
+                                            className="btn btn-secondary w-100">Open Profile</button>
                                     </Card.Footer>
                                 </Card>
                             </Col>)
