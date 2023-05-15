@@ -29,15 +29,15 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const data = req.body;
-    const student = await getStudentByUsernameFromDb(data.username);
+    if (data.role === 'user') {
+        const student = await getStudentByUsernameFromDb(data.username);
 
-
-    data.gpa = student.gpa;
-    data.degree = student.degree;
-    data.graduationYear = student.graduationYear;
-    data.grade = student.grade
-    data.UCN = "G" + data.graduationYear + data.username.substring(1);
-
+        data.gpa = student.gpa;
+        data.degree = student.degree;
+        data.graduationYear = student.graduationYear;
+        data.grade = student.grade
+        data.UCN = "G" + data.graduationYear + data.username.substring(1);
+    }
 
     // Checking password
     if (data.password)

@@ -18,42 +18,60 @@ const userSchema = new Schema<IUser>({
     },
     degree: {
         type: String,
-        required: true,
+        required: function () {
+            return this.role === "user"; // Only required for user role
+        },
     },
     graduationYear: {
         type: Number,
-        required: true,
+        required: function () {
+            return this.role === "user"; // Only required for user role
+        },
     },
     gpa: {
         sem1: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
         sem2: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
         sem3: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
         sem4: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
         sem5: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
         sem6: {
             type: Number,
-            required: true,
+            required: function () {
+                return this.role === "user"; // Only required for user role
+            },
         },
     },
     grade: {
         type: String,
         enum: ['P', 'C', 'DI', 'HD'],
-        required: true,
+        required: function () {
+            return this.role === "user"; // Only required for user role
+        },
     },
     password: {
         type: String,
@@ -66,7 +84,9 @@ const userSchema = new Schema<IUser>({
     },
     UCN: {
         type: String,
-        required: true,
+        required: function () {
+            return this.role === "user"; // Make UCN required if the role is "user"
+        },
         unique: true
     },
 });
