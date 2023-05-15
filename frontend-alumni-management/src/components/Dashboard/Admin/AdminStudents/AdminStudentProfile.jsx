@@ -69,10 +69,6 @@ const AdminStudentProfile = () => {
                                 <span>GPA {student?.gpa?.sem1}</span>
                             </div>
                             <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
-                                <span>Semester 1</span>
-                                <span>GPA {student?.gpa?.sem1}</span>
-                            </div>
-                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
                                 <span>Semester 2</span>
                                 <span>GPA {student?.gpa?.sem2}</span>
                             </div>
@@ -87,6 +83,10 @@ const AdminStudentProfile = () => {
                             <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
                                 <span>Semester 5</span>
                                 <span>GPA {student?.gpa?.sem5}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 6</span>
+                                <span>GPA {student?.gpa?.sem6}</span>
                             </div>
                             <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
                                 <span>Final Overall Grade</span>

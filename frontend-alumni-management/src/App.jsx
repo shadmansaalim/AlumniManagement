@@ -26,6 +26,7 @@ import UserProfile from './components/Dashboard/User/UserProfile/UserProfile';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import VerifyAlumniCertificate from './components/VerifyAlumniCertificate/VerifyAlumniCertificate';
 import AdminStudentProfile from './components/Dashboard/Admin/AdminStudents/AdminStudentProfile';
+import DashboardHome from './components/Dashboard/Common/DashboardHome/DashboardHome';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><Dashboard /></PrivateRoute>,
     children: [
+      {
+        path: "/dashboard",
+        element: <PrivateRoute userRequired={true} roles={['admin', 'user']}><DashboardHome /></PrivateRoute>,
+      },
       {
         path: "/dashboard/students",
         element: <PrivateRoute userRequired={true} roles={['admin']}><AdminStudents /></PrivateRoute>,

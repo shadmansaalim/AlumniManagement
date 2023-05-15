@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import profile from '../../../../assets/profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import axios from '../../../../axios/axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,10 +42,15 @@ const AdminStudents = () => {
                                                 <small className="m-0">{student.firstName}  {student.lastName}</small>
                                             </Card.Title>
 
+                                            {
+                                                student.grade === 'HD'
+                                                &&
+                                                <button data-toggle="tooltip" data-placement="top" title="Student graduated with HD" type="button" className="btn btn-success btn-circle btn-lg ms-auto">
+                                                    <FontAwesomeIcon icon={faLightbulb} />
+                                                </button>
+                                            }
 
-                                            <button type="button" className="btn btn-danger btn-circle btn-lg ms-auto">
-                                                <FontAwesomeIcon icon={faCircleExclamation} />
-                                            </button>
+
                                         </div>
                                         <hr />
                                         <Card.Text className="text-start">

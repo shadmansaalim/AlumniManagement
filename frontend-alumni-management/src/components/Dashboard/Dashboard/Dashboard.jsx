@@ -109,7 +109,7 @@ const Dashboard = () => {
                                             <FontAwesomeIcon icon={faFileLines} />
                                         </span>
                                         <span className="col-8 text-start">
-                                            Academic Certificates
+                                            Certificates
                                         </span>
                                     </Button>
                                 </Link>
