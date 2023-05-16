@@ -7,8 +7,96 @@ import { faFileCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
 import axios from '../../axios/axios';
 
+import { Modal } from 'react-bootstrap';
+
+
+import profile from '../../assets/profile.png'
+
+
+function AlumniInfoModal(props) {
+    const { alumni } = props;
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Alumni Information
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="mx-auto col-12 col-lg-9 profile-wrapper">
+                    <div className="d-flex flex-column align-items-center justify-content-center">
+                        <img src={profile} alt="" width="80px" height="80px" />
+                    </div>
+                    <div className="mt-3 text-start">
+                        <div className="row">
+                            <div className="col-xl-6 mb-4">
+                                <div className="mb-2">First Name</div>
+                                <span className="p-2 rounded-3 w-100 user-details d-flex align-items-center">{alumni.firstName}</span>
+                            </div>
+                            <div className="col-xl-6 mb-4">
+                                <div className="mb-2">Last Name</div>
+                                <span className="p-2 rounded-3 w-100 user-details d-flex align-items-center">{alumni.lastName}</span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xl-6 mb-4">
+                                <div className="mb-2">Degree</div>
+                                <span className="rounded-3 w-100 user-details d-flex align-items-center">{alumni.degree}</span>
+                            </div>
+                            <div className="col-xl-6 mb-4">
+                                <div className="mb-2">Graduation Year</div>
+                                <span className="rounded-3 w-100 user-details d-flex align-items-center">{alumni.graduationYear}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="mb-2"> Semester Results</div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 1</span>
+                                <span>GPA {alumni.gpa?.sem1}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 2</span>
+                                <span>GPA {alumni.gpa?.sem2}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 3</span>
+                                <span>GPA {alumni.gpa?.sem3}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 4</span>
+                                <span>GPA {alumni.gpa?.sem4}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 5</span>
+                                <span>GPA {alumni.gpa?.sem5}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Semester 6</span>
+                                <span>GPA {alumni.gpa?.sem6}</span>
+                            </div>
+                            <div className="rounded-3 w-100 user-details d-flex align-items-center justify-content-between mb-1">
+                                <span>Final Overall Grade</span>
+                                <span className="fw-bold text-success">{alumni.grade}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal.Body>
+        </Modal>
+    );
+}
+
 const VerifyAlumniCertificate = () => {
-    const [UCN, setUCN] = useState(null);
+    const [modalShow, setModalShow] = React.useState(false);
+
+    const [UCN, setUCN] = useState("");
+    const [alumni, setAlumni] = useState(null);
 
     const handleOnBlur = e => {
         setUCN(e.target.value);
@@ -19,6 +107,8 @@ const VerifyAlumniCertificate = () => {
         const API = `http://localhost:3000/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
         axios.get(API).then(res => {
             if (res.data.verified) {
+                setAlumni(res.data.data);
+                setModalShow(true);
                 swal("Valid UCN", "This is a verified Unique Certificate Number", "success");
             }
             else {
@@ -42,7 +132,7 @@ const VerifyAlumniCertificate = () => {
                                 <input
                                     onBlur={handleOnBlur}
                                     name="UCN"
-                                    type="number" className="form-control" id="uniqueId" placeholder="Unique Certificate Number" required />
+                                    type="text" className="form-control" id="uniqueId" placeholder="Unique Certificate Number" required />
                                 <label htmlFor="uniqueId">Unique Certificate Number</label>
                             </div>
                             <div className="divider d-flex align-items-center my-4">
@@ -52,6 +142,16 @@ const VerifyAlumniCertificate = () => {
                             <div className="text-center mt-4 pt-2">
                                 <button className="btn btn-success w-100" type="submit">Verify <FontAwesomeIcon icon={faFileCircleCheck} /></button>
                             </div>
+
+                            {
+                                alumni
+                                &&
+                                <AlumniInfoModal
+                                    alumni={alumni}
+                                    show={modalShow}
+                                    onHide={() => setModalShow(false)}
+                                />
+                            }
                         </form>
                     </div>
                 </div>

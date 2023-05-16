@@ -20,6 +20,11 @@ export const getStudentsFromDb = async (): Promise<Array<IStudent>> => {
     return users;
 }
 
+export const getStudentsAlumniFromDb = async (): Promise<Array<IStudent>> => {
+    const users = await Student.find({ grade: { $exists: true } });
+    return users;
+}
+
 export const getStudentByUsernameFromDb = async (payload: queryStringType): Promise<IStudent | null> => {
     const user = await Student.findOne({ username: payload });
     return user;

@@ -24,6 +24,11 @@ export const getUserByUsernameFromDb = async (payload: queryStringType): Promise
     return user;
 }
 
+export const getUserByUCNFromDb = async (payload: queryStringType): Promise<IUser | null> => {
+    const user = await User.findOne({ UCN: payload });
+    return user;
+}
+
 export const verifyRecaptchaFromGoogle = async (payload: queryStringType) => {
     const VERIFY_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${payload['g-recaptcha-response']}`;
     try {

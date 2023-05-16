@@ -55,30 +55,6 @@ const Dashboard = () => {
                                 </Link>
                             )}
                             {role === "admin" && (
-                                <Link to="/dashboard/colleges" className="text-decoration-none">
-                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                        <span className="col-3 text-end">
-                                            <FontAwesomeIcon icon={faBuildingColumns} />
-                                        </span>
-                                        <span className="col-8 text-start">
-                                            Colleges +
-                                        </span>
-                                    </Button>
-                                </Link>
-                            )}
-                            {role === "admin" && (
-                                <Link to="/dashboard/courses" className="text-decoration-none">
-                                    <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
-                                        <span className="col-3 text-end">
-                                            <FontAwesomeIcon icon={faBook} />
-                                        </span>
-                                        <span className="col-8 text-start">
-                                            Courses +
-                                        </span>
-                                    </Button>
-                                </Link>
-                            )}
-                            {role === "admin" && (
                                 <Link to="/dashboard/manage-job-post" className="text-decoration-none">
                                     <Button className="btn btn-success col-10 mb-3 d-flex justify-content-between align-items-center mx-auto" >
                                         <span className="col-3 text-end">
@@ -109,7 +85,7 @@ const Dashboard = () => {
                                             <FontAwesomeIcon icon={faFileLines} />
                                         </span>
                                         <span className="col-8 text-start">
-                                            Academic Certificates
+                                            Certificates
                                         </span>
                                     </Button>
                                 </Link>

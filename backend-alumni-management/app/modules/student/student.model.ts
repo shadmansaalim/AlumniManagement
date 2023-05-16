@@ -27,33 +27,26 @@ const studentSchema = new Schema<IStudent>({
     gpa: {
         sem1: {
             type: Number,
-            required: true,
         },
         sem2: {
             type: Number,
-            required: true,
         },
         sem3: {
             type: Number,
-            required: true,
         },
         sem4: {
             type: Number,
-            required: true,
         },
         sem5: {
             type: Number,
-            required: true,
         },
         sem6: {
             type: Number,
-            required: true,
         },
     },
     grade: {
         type: String,
         enum: ['P', 'C', 'DI', 'HD'],
-        required: true,
     },
 });
 

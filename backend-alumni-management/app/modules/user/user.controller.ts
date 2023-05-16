@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, verifyRecaptchaFromGoogle } from './user.service';
+import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, getUserByUCNFromDb, verifyRecaptchaFromGoogle } from './user.service';
+import { getStudentByUsernameFromDb } from '../student/student.service';
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -25,11 +26,18 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
-
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const data = req.body;
-    console.log(data);
+    if (data.role === 'user') {
+        const student = await getStudentByUsernameFromDb(data.username);
+
+        data.gpa = student.gpa;
+        data.degree = student.degree;
+        data.graduationYear = student.graduationYear;
+        data.grade = student.grade
+        data.UCN = "G" + data.graduationYear + data.username.substring(1);
+    }
 
     // Checking password
     if (data.password)
@@ -77,21 +85,23 @@ export const verifyRecaptcha = async (req: Request, res: Response, next: NextFun
 }
 
 export const verifyAlumniCertificate = async (req: Request, res: Response, next: NextFunction) => {
-    // const UCN = req.query.ucn;
+    const UCN = req.query.ucn;
 
-    // const checkUser = await getUserByUCNFromDb(UCN);
-    // if (checkUser) {
-    //     res.status(200).json({
-    //         status: 'success',
-    //         verified: true
-    //     })
-    // }
-    // else {
-    //     res.status(200).json({
-    //         status: 'success',
-    //         verified: false
-    //     })
-    // }
+    const checkUser = await getUserByUCNFromDb(UCN);
+    if (checkUser) {
+        res.status(200).json({
+            status: 'success',
+            data: checkUser,
+            verified: true
+        })
+    }
+    else {
+        res.status(200).json({
+            status: 'success',
+            data: checkUser,
+            verified: false
+        })
+    }
 
 }
 
