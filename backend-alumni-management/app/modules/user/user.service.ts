@@ -24,3 +24,9 @@ export const getUserByUsernameFromDb = async (payload: queryStringType): Promise
     const user = await User.findOne({ username: payload });
     return user;
 }
+
+
+export const getUserByUCNFromDb = async (payload: queryStringType): Promise<IUser | null> => {
+    const user = await User.findOne({ UCN: payload });
+    return user;
+}
