@@ -10,14 +10,7 @@ import Joi from "joi";
 
 const userSchema = Joi.object({
     username: Joi.string().required(),
-    password: Joi.string()
-        .pattern(new RegExp("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$"))
-        .required()
-        .messages({
-            "string.pattern.base": `Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one numeric value, and one special character.`,
-            "string.empty": `Password cannot be empty`,
-            "any.required": `Password is required`,
-        }),
+    password: Joi.string().required(),
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
     role: Joi.string().required()
