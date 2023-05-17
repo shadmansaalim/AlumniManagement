@@ -168,7 +168,7 @@ const useDb = () => {
             const API = `http://localhost:3000/api/v1/users/login?username=${username}&password=${password}`;
             axios.get(API).then(res => {
                 if (res.data) {
-                    const data = res.data;
+                    const data = res.data.data;
                     const token = res.token;
                     setCurrentUser(data);
                     saveToken(token);
