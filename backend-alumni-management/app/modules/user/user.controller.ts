@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { createUserToDb, getUsersFromDb, getUserByUsernameFromDb, getUserByUCNFromDb, verifyRecaptchaFromGoogle } from './user.service';
 import { getStudentByUsernameFromDb } from '../student/student.service';
+import { sign } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // For hashing
 const bcrypt = require("bcrypt");
@@ -32,10 +35,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     if (data.role === 'user') {
         const student = await getStudentByUsernameFromDb(data.username);
 
-        data.gpa = student.gpa;
-        data.degree = student.degree;
-        data.graduationYear = student.graduationYear;
-        data.grade = student.grade
+        data.gpa = student?.gpa;
+        data.degree = student?.degree;
+        data.graduationYear = student?.graduationYear;
+        data.grade = student?.grade
         data.UCN = "G" + data.graduationYear + data.username.substring(1);
     }
 
@@ -59,13 +62,16 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     const password = req.query.password;
 
     // Getting the user from DB
-    const user = await getUserByUsernameFromDb(username);
+    const user = await getUserByUsernameFromDb(username??'');
 
-    if (user && bcrypt.compareSync(password, user.password))
+    if (user && bcrypt.compareSync(password, user.password)){
+        let token = sign({user},process?.env?.SECRET_KEY??' ',{expiresIn: "1h"});
         res.status(200).json({
             status: 'success',
-            data: user
-        })
+            data: user,
+            token: token
+        });
+    }
     else
         //Login Fail
         res.json(null);
@@ -87,7 +93,7 @@ export const verifyRecaptcha = async (req: Request, res: Response, next: NextFun
 export const verifyAlumniCertificate = async (req: Request, res: Response, next: NextFunction) => {
     const UCN = req.query.ucn;
 
-    const checkUser = await getUserByUCNFromDb(UCN);
+    const checkUser = await getUserByUCNFromDb(UCN??'');
     if (checkUser) {
         res.status(200).json({
             status: 'success',
