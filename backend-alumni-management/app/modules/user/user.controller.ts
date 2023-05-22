@@ -62,10 +62,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     const password = req.query.password;
 
     // Getting the user from DB
-    const user = await getUserByUsernameFromDb(username??'');
+    const user = await getUserByUsernameFromDb(username ?? '');
 
-    if (user && bcrypt.compareSync(password, user.password)){
-        let token = sign({user},process?.env?.SECRET_KEY??' ',{expiresIn: "1h"});
+    if (user && bcrypt.compareSync(password, user.password)) {
+        let token = sign({ user }, process?.env?.SECRET_KEY ?? ' ', { expiresIn: "1h" });
         res.status(200).json({
             status: 'success',
             data: user,
@@ -82,7 +82,7 @@ export const verifyRecaptcha = async (req: Request, res: Response, next: NextFun
     console.log(data);
 
     const verifyUser = await verifyRecaptchaFromGoogle(data);
-    if(verifyUser) {
+    if (verifyUser) {
         res.status(200).json({
             status: 'success',
             verified: true
@@ -93,7 +93,7 @@ export const verifyRecaptcha = async (req: Request, res: Response, next: NextFun
 export const verifyAlumniCertificate = async (req: Request, res: Response, next: NextFunction) => {
     const UCN = req.query.ucn;
 
-    const checkUser = await getUserByUCNFromDb(UCN??'');
+    const checkUser = await getUserByUCNFromDb(UCN ?? '');
     if (checkUser) {
         res.status(200).json({
             status: 'success',

@@ -104,7 +104,7 @@ const VerifyAlumniCertificate = () => {
 
     const handleVerifyUCN = e => {
         e.preventDefault();
-        const API = `http://localhost:3000/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
+        const API = `https://alumni-management-ryp1.onrender.com/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
         axios.get(API).then(res => {
             if (res.data.verified) {
                 setAlumni(res.data.data);

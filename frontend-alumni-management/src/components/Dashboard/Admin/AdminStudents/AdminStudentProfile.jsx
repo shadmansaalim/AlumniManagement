@@ -18,7 +18,7 @@ const AdminStudentProfile = () => {
 
 
     useEffect(() => {
-        const API = `http://localhost:3000/api/v1/students?username=${username}`;
+        const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?username=${username}`;
         axios.get(API).then(res => {
             if (res.data) {
                 setStudent(res.data);

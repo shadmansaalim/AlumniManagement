@@ -48,7 +48,7 @@ const useDb = () => {
 
     // Function to check whether user exists in DB or NOT
     const userExists = async (username) => {
-        const API = `http://localhost:3000/api/v1/users?username=${username}`;
+        const API = `https://alumni-management-ryp1.onrender.com/api/v1/users?username=${username}`;
         try {
             const res = await axios.get(API);
             return res.data;
@@ -68,7 +68,7 @@ const useDb = () => {
 
     // Function to check whether student exists with given student username
     const studentExists = async (username) => {
-        const API = `http://localhost:3000/api/v1/students?username=${username}`;
+        const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?username=${username}`;
         try {
             const res = await axios.get(API);
             return res.data;
@@ -126,7 +126,7 @@ const useDb = () => {
                             lastName,
                             role
                         }
-                        axios.post('http://localhost:3000/api/v1/users/create-user', JSON.stringify(user), {
+                        axios.post('https://alumni-management-ryp1.onrender.com/api/v1/users/create-user', JSON.stringify(user), {
                             headers: {
                                 'content-type': 'application/json'
                             }
@@ -165,7 +165,7 @@ const useDb = () => {
 
         // If exists then calling the LOGIN API and checking username and password matches or not
         if (exists) {
-            const API = `http://localhost:3000/api/v1/users/login?username=${username}&password=${password}`;
+            const API = `https://alumni-management-ryp1.onrender.com/api/v1/users/login?username=${username}&password=${password}`;
             axios.get(API).then(res => {
                 if (res.data) {
                     const data = res.data.data;

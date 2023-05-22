@@ -21,17 +21,17 @@ const Login = () => {
 
     useEffect(() => {
         const loadScriptByURL = (id, url) => {
-          const isScriptExist = document.getElementById(id);
-       
-          if (!isScriptExist) {
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = url;
-            script.id = id;
-            document.body.appendChild(script);
-          }
+            const isScriptExist = document.getElementById(id);
+
+            if (!isScriptExist) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = url;
+                script.id = id;
+                document.body.appendChild(script);
+            }
         }
-       
+
         // load the reacaptcha script by passing the URL
         loadScriptByURL("recaptcha-key", `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`);
     }, []);
@@ -49,7 +49,7 @@ const Login = () => {
 
         window.grecaptcha.ready(() => {
             window.grecaptcha.execute(SITE_KEY, { action: 'submit' }).then(token => {
-                axios.post('http://localhost:3000/api/v1/users/verify-recaptcha', {
+                axios.post('https://alumni-management-ryp1.onrender.com/api/v1/users/verify-recaptcha', {
                     username: loginData.username,
                     password: loginData.password,
                     "g-recaptcha-response": token
@@ -58,14 +58,14 @@ const Login = () => {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(({ data: { verified } }) => {
-                    if (verified) {
-                        loginUser(loginData.username, loginData.password, navigate);
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                    .then(({ data: { verified } }) => {
+                        if (verified) {
+                            loginUser(loginData.username, loginData.password, navigate);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             });
         });
     }
