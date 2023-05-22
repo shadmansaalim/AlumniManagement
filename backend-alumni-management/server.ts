@@ -8,7 +8,8 @@ const port: number = 3000;
 // Database connection
 async function bootstrap() {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/backend-alumni-management');
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tligr41.mongodb.net/
+        `);
         console.log(`Database connection successful`);
 
         app.listen(port, () => {

@@ -6,7 +6,7 @@ import { authGuard } from '../auth-token/check-auth-user';
 
 
 // Root API
-router.get('/', authGuard, getStudents);
+router.get('/', getStudents);
 router.post('/create-student', createStudent);
 
 
