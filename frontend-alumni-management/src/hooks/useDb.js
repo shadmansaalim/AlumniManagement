@@ -10,7 +10,14 @@ import Joi from "joi";
 
 const userSchema = Joi.object({
     username: Joi.string().required(),
-    password: Joi.string().required(),
+    password: Joi.string()
+        .pattern(new RegExp("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$"))
+        .required()
+        .messages({
+            "string.pattern.base": `Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one numeric value, and one special character.`,
+            "string.empty": `Password cannot be empty`,
+            "any.required": `Password is required`,
+        }),
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
     role: Joi.string().required()
@@ -71,6 +78,7 @@ const useDb = () => {
         const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?username=${username}`;
         try {
             const res = await axios.get(API);
+            console.log(res)
             return res.data;
         } catch (err) {
             console.log(err);
@@ -133,6 +141,7 @@ const useDb = () => {
                         })
                             .then(res => {
                                 if (res.data) {
+                                    console.log(res.data.data)
                                     setCurrentUser(res.data.data);
                                     saveUser(username);
                                     navigate("/dashboard");
