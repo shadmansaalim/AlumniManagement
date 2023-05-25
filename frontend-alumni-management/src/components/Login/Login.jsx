@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../axios/axios';
 
 const SITE_KEY = import.meta.env.VITE_SITE_KEY;
+const API_URL = 'https://alumni-management-ryp1.onrender.com';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
@@ -49,7 +50,7 @@ const Login = () => {
 
         window.grecaptcha.ready(() => {
             window.grecaptcha.execute(SITE_KEY, { action: 'submit' }).then(token => {
-                axios.post('https://alumni-management-ryp1.onrender.com/api/v1/users/verify-recaptcha', {
+                axios.post(`${API_URL}/api/v1/users/verify-recaptcha`, {
                     username: loginData.username,
                     password: loginData.password,
                     "g-recaptcha-response": token

@@ -11,14 +11,14 @@ import { useParams } from 'react-router-dom';
 import axios from '../../../../axios/axios';
 
 
-
+const API_URL = 'https://alumni-management-ryp1.onrender.com';
 const AdminStudentProfile = () => {
     const { username } = useParams();
     const [student, setStudent] = useState(null);
 
 
     useEffect(() => {
-        const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?username=${username}`;
+        const API = `${API_URL}/api/v1/students?username=${username}`;
         axios.get(API).then(res => {
             if (res.data) {
                 setStudent(res.data);

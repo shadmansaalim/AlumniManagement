@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 // Validation library
 import Joi from "joi";
 
+const API_URL = 'https://alumni-management-ryp1.onrender.com';
+
 const userSchema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string()
@@ -55,7 +57,7 @@ const useDb = () => {
 
     // Function to check whether user exists in DB or NOT
     const userExists = async (username) => {
-        const API = `https://alumni-management-ryp1.onrender.com/api/v1/users?username=${username}`;
+        const API = `${API_URL}/api/v1/users?username=${username}`;
         try {
             const res = await axios.get(API);
             return res.data;
@@ -75,7 +77,7 @@ const useDb = () => {
 
     // Function to check whether student exists with given student username
     const studentExists = async (username) => {
-        const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?username=${username}`;
+        const API = `${API_URL}/api/v1/students?username=${username}`;
         try {
             const res = await axios.get(API);
             console.log(res)
@@ -134,7 +136,7 @@ const useDb = () => {
                             lastName,
                             role
                         }
-                        axios.post('https://alumni-management-ryp1.onrender.com/api/v1/users/create-user', JSON.stringify(user), {
+                        axios.post(`${API_URL}/api/v1/users/create-user`, JSON.stringify(user), {
                             headers: {
                                 'content-type': 'application/json'
                             }
@@ -174,11 +176,11 @@ const useDb = () => {
 
         // If exists then calling the LOGIN API and checking username and password matches or not
         if (exists) {
-            const API = `https://alumni-management-ryp1.onrender.com/api/v1/users/login?username=${username}&password=${password}`;
+            const API = `${API_URL}/api/v1/users/login?username=${username}&password=${password}`;
             axios.get(API).then(res => {
                 if (res.data) {
                     const data = res.data.data;
-                    const token = res.token;
+                    const token = res.data.token;
                     setCurrentUser(data);
                     saveToken(token);
                     saveUser(username);

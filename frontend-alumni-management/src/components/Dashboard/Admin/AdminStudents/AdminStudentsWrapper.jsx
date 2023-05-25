@@ -7,14 +7,14 @@ import axios from '../../../../axios/axios';
 
 import AdminStudents from './AdminStudents';
 
-
+const API_URL = 'https://alumni-management-ryp1.onrender.com';
 
 const AdminStudentsWrapper = () => {
     const [students, setStudents] = useState([]);
     const [data, setData] = useState("everyone");
 
     useEffect(() => {
-        const API = `https://alumni-management-ryp1.onrender.com/api/v1/students?data=${data}`;
+        const API = `${API_URL}/api/v1/students?data=${data}`;
         axios.get(API).then(res => {
             if (res.data) {
                 setStudents(res.data.data);

@@ -13,6 +13,8 @@ import { Modal } from 'react-bootstrap';
 import profile from '../../assets/profile.png'
 
 
+const API_URL = 'https://alumni-management-ryp1.onrender.com';
+
 function AlumniInfoModal(props) {
     const { alumni } = props;
     return (
@@ -104,7 +106,7 @@ const VerifyAlumniCertificate = () => {
 
     const handleVerifyUCN = e => {
         e.preventDefault();
-        const API = `https://alumni-management-ryp1.onrender.com/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
+        const API = `${API_URL}/api/v1/users/verify-alumni-certificate?ucn=${UCN}`;
         axios.get(API).then(res => {
             if (res.data.verified) {
                 setAlumni(res.data.data);
