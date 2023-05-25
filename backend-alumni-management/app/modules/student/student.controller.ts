@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getStudentByUsernameFromDb, getStudentsAlumniFromDb, getStudentsFromDb, createStudentToDb } from './student.service';
-
+import { authGuard } from '../auth-token/check-auth-user';
 
 export const getStudents = async (req: Request, res: Response, next: NextFunction) => {
     // Getting the username if it is in query
@@ -13,18 +13,24 @@ export const getStudents = async (req: Request, res: Response, next: NextFunctio
         res.json(student);
     }
     else if (data === 'alumni') {
-        const students = await getStudentsAlumniFromDb();
-        res.status(200).json({
-            status: 'success',
-            data: students
-        })
+        var responce = await authGuard(req,res,next);
+        if(responce?.statusCode!=401){
+            const students = await getStudentsAlumniFromDb();
+            res.status(200).json({
+                status: 'success',
+                data: students
+            })
+        }
     }
     else {
-        const students = await getStudentsFromDb();
-        res.status(200).json({
-            status: 'success',
-            data: students
-        })
+        var responce = await authGuard(req,res,next);
+        if(responce?.statusCode!=401){
+            const students = await getStudentsFromDb();
+            res.status(200).json({
+                status: 'success',
+                data: students
+            })
+        }
     }
 }
 
